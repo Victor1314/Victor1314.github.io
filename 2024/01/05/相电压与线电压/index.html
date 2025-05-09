@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Victor1314/Victor1314.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Victor1314/Victor1314.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Victor1314/Victor1314.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/Victor1314/Victor1314.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/Victor1314/Victor1314.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/Victor1314/Victor1314.github.io/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/Victor1314/Victor1314.github.io/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="相是什么？在电力系统中，”相”通常指的是交流电的一种相位。对于一个三相交流电系统来说，它由三种电流或电压组成，这三种电流或电压的相位差分别为120度。也就是说，在一个完整的360度周期中，这三种电流或电压将分别在0度、120度和240度达到峰值。这三种电流或电压通常被称为三相电的三个”相”，一般标记为A相、B相和C相。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="相电压、线电压是什么？">
+<meta property="og:url" content="https://github.com/Victor1314/Victor1314.github.io/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/index.html">
+<meta property="og:site_name" content="陈牧之的网址">
+<meta property="og:description" content="相是什么？在电力系统中，”相”通常指的是交流电的一种相位。对于一个三相交流电系统来说，它由三种电流或电压组成，这三种电流或电压的相位差分别为120度。也就是说，在一个完整的360度周期中，这三种电流或电压将分别在0度、120度和240度达到峰值。这三种电流或电压通常被称为三相电的三个”相”，一般标记为A相、B相和C相。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-08T15:48:39.301Z">
+<meta property="article:author" content="chenmuzhi">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://github.com/Victor1314/Victor1314.github.io/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>相电压、线电压是什么？ | 陈牧之的网址</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/Victor1314/Victor1314.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈牧之的网址</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录遇到的人，读过的书，走过的路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/Victor1314/Victor1314.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/Victor1314/Victor1314.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Victor1314/Victor1314.github.io/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Victor1314/Victor1314.github.io/images/avatar.gif">
+      <meta itemprop="name" content="chenmuzhi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈牧之的网址">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          相电压、线电压是什么？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-01-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-05T00:00:00+08:00">2024-01-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Victor1314/Victor1314.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="相是什么？"><a href="#相是什么？" class="headerlink" title="相是什么？"></a>相是什么？</h2><p>在电力系统中，”相”通常指的是交流电的一种相位。对于一个三相交流电系统来说，它由三种电流或电压组成，这三种电流或电压的相位差分别为120度。也就是说，在一个完整的360度周期中，这三种电流或电压将分别在0度、120度和240度达到峰值。这三种电流或电压通常被称为三相电的三个”相”，一般标记为A相、B相和C相。</p>
+<span id="more"></span>
+
+<p>在物理学中，”相位”是一个度量波形在周期中的特定位置的概念，通常表示为角度。对于正弦波形（如交流电），相位的完整周期是360度。</p>
+<p>所以，当我们在电力系统中谈论”A相”、”B相”或”C相”时，我们其实是在讨论这些电流或电压在其周期中的相位位置。</p>
+<p>打个比方。你知道旋转的风扇吧？假设我们有三个风扇，它们都在旋转，但是不是完全同步的，而是每一个风扇的转动都比前一个稍微慢一点。这就像我们的三相电力系统中的”A相”，”B相”，和”C相”。每一个都是电流或电压，就像每一个风扇都在转动，但是它们的高峰或者最大值的时间点都不一样，就像每一个风扇的位置都稍微有些不同。</p>
+<p>在电力系统中，这三个电流或电压的不同，让我们可以更有效地、更平稳地发送和使用电力，就像三个风扇能比一个风扇吹出更均匀的风。</p>
+<h2 id="相电压和线电压"><a href="#相电压和线电压" class="headerlink" title="相电压和线电压"></a>相电压和线电压</h2><p>电压，也被称为电位差，是描述电荷之间的电势能差的物理量。它是驱动电荷在电路中流动的力量，就像水压驱动水流过水管一样。电压的单位是伏特（V）。</p>
+<p>相电压和线电压是三相电力系统中的两个重要概念。</p>
+<ol>
+<li>相电压：也被称为阶电压，是指任意一相（通常标记为A、B、C）和中性线（N）之间的电压。它反映了该相的电压大小。在理想情况下，三相电力系统中的每一相电压都相等，但都有120度的相位差。</li>
+<li>线电压：也被称为线对线电压，是指任意两相之间的电压。例如，在一个ABC三相电力系统中，线电压可以是AB、BC或CA之间的电压。在理想的平衡三相电力系统中，线电压等于相电压乘以根号3，这是由三相系统的相位差的特性决定的。当线电压标准是380V，而相电压标准是220V时，电网相电压: 电网线电压 &#x2F; 380.0 * 220.0。</li>
+</ol>
+<p>这两个概念在理解和设计三相电力系统时是非常重要的。例如，三相电动机的表现（例如其转速和输出功率）将取决于供应的相电压和线电压。此外，安全操作电力设备也需要理解这两个概念，以防止超过设备的电压等级并引发危险的情况。</p>
+<h2 id="零线和火线"><a href="#零线和火线" class="headerlink" title="零线和火线"></a>零线和火线</h2><p>“零线”和”火线”是描述电力系统中导线的术语，这两个术语通常用在家庭或商业电力系统中。</p>
+<ol>
+<li>零线：也被称为中性线或者接地线，在电力系统中，它被接地，因此通常有零电压，但是会通过它流通电流。零线在颜色编码中通常是蓝色或白色（这可能根据地域和电气规范而变化）。在正常的工作条件下，零线用来将电流从电力使用设备（比如灯泡或电视）返回到电源，也就是说，电流会从火线流入设备，然后从设备流回零线。</li>
+<li>火线：也被称为活线或热线，它携带电力从电源传输到电力使用设备。火线在颜色编码中通常是黑色或红色（这也可能根据地域和电气规范而变化）。火线是有电压的，因此如果一个人触摸到未被正确绝缘的火线，可能会受到电击。</li>
+</ol>
+<p>在一个电源插座中，你通常会看到两个或三个插孔：一个是火线插孔，一个是零线插孔，可能还有一个接地插孔。在很多地方，电源插座的设计有特定的安全特性，例如火线插孔和零线插孔的形状和大小不同，这是为了防止插头插反，或者人们触摸到电源插孔时接触到火线。 </p>
+<p>火线可以是三相电源线的一部分，但也可以是单相电源线。</p>
+<p>电气系统需要零线是为了在负载（如电器）和电源（如发电站或变压器）之间形成一个完整的电路，从而使电流能够流动。当我们打开一个开关，比如灯的开关，就会让电源（火线）和负载（灯泡）连接起来。电流会从电源沿着火线流向灯泡，然后从灯泡沿着零线流回电源，这样就形成了一个电路。</p>
+<p>如果没有零线，电路就不完整，电流无法流动，电器就不能工作。你可以想象一下，如果你有一条河，但是没有河的出口，那么水就无法流动。</p>
+<p>此外，零线还有一个重要的功能，就是保护人身安全。在正确接地的电气系统中，零线被连接到地，这样可以保证零线的电压接近于零。如果电气设备发生故障，比如电器的内部线路接触到了外壳，电流就会流入地，而不是流经接触设备的人，从而保护人免受电击。</p>
+<p>因此，虽然火线对电气系统来说非常重要，但零线也同样重要。它们两者都需要，才能使电气系统正常工作，并确保人的安全。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Victor1314/Victor1314.github.io/2023/12/17/Git%E6%93%8D%E4%BD%9C/" rel="prev" title="git基础知识">
+      <i class="fa fa-chevron-left"></i> git基础知识
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Victor1314/Victor1314.github.io/2024/03/05/%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%9C%E6%9C%A8%E5%A4%A7%E4%BC%9A/" rel="next" title="生命启发生命">
+      生命启发生命 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">相是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B8%E7%94%B5%E5%8E%8B%E5%92%8C%E7%BA%BF%E7%94%B5%E5%8E%8B"><span class="nav-number">2.</span> <span class="nav-text">相电压和线电压</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B6%E7%BA%BF%E5%92%8C%E7%81%AB%E7%BA%BF"><span class="nav-number">3.</span> <span class="nav-text">零线和火线</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenmuzhi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/Victor1314/Victor1314.github.io/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenmuzhi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/Victor1314/Victor1314.github.io/lib/anime.min.js"></script>
+  <script src="/Victor1314/Victor1314.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/Victor1314/Victor1314.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/Victor1314/Victor1314.github.io/js/utils.js"></script>
+
+<script src="/Victor1314/Victor1314.github.io/js/motion.js"></script>
+
+
+<script src="/Victor1314/Victor1314.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/Victor1314/Victor1314.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

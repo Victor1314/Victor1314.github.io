@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/Victor1314/Victor1314.github.io/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/Victor1314/Victor1314.github.io/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/Victor1314/Victor1314.github.io/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/Victor1314/Victor1314.github.io/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/Victor1314/Victor1314.github.io/css/main.css">
+
+
+<link rel="stylesheet" href="/Victor1314/Victor1314.github.io/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"github.com","root":"/Victor1314/Victor1314.github.io/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、快速开始采用预训练(pretrain)和监督微调（Supervised Fine-Tuning，sft）的方法，以最小的成本复现 minimind-zero, 加速通关从模型预训练，微调，到部署。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="开源项目minimind-zero学习">
+<meta property="og:url" content="https://github.com/Victor1314/Victor1314.github.io/2025/03/05/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8modal/index.html">
+<meta property="og:site_name" content="陈牧之的网址">
+<meta property="og:description" content="一、快速开始采用预训练(pretrain)和监督微调（Supervised Fine-Tuning，sft）的方法，以最小的成本复现 minimind-zero, 加速通关从模型预训练，微调，到部署。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://d41chssnpqdne.cloudfront.net/user_upload_by_module/chat_bot/files/59476626/kEWGm3ZmXKHKnvcY.png?Expires=1743685818&Signature=OMHlacDQErvSa7wnB4ifIorqCDpmt4DtA34Qce0hcM111ugBJ~dwSFdurk61SQpC7cwEQ~uQUyMOScEkivoz1Cvz6VynJxUu~hbBATDeOpdfKQSWg4gPbBLSORmT3I2qk5n8hMxEEGpGqRm5ttYvIeKGj2cH5o6zPH0-R2PeZs9~KlfwiuKhBE7rfRLCAPfXTD6mxpsMyz2BagA34G1Bp~3TAqp0M8fV0ZJGLo5BM98hak7t215-wjCP22Rb9kqeJ8P780b9Zk8kcnZ7OK367Vv46DO14N5SYug1biXeGxLPw3p76Sd0NoBAZ~kvn~lcnMyKndu-l1pQ2dGcK9ctWw__&Key-Pair-Id=K3USGZIKWMDCSX">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250320232517933.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321000118852.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250320232658106.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321001112385.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321165059127.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321171223179.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322085053992.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322090720246.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322094629054.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322094857989.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322201705561.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327222336660.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322204200340.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250323074542851.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327222957713.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224010360.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224103524.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224139074.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327201730558.png">
+<meta property="article:published_time" content="2025-03-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-08T15:48:39.339Z">
+<meta property="article:author" content="chenmuzhi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://d41chssnpqdne.cloudfront.net/user_upload_by_module/chat_bot/files/59476626/kEWGm3ZmXKHKnvcY.png?Expires=1743685818&Signature=OMHlacDQErvSa7wnB4ifIorqCDpmt4DtA34Qce0hcM111ugBJ~dwSFdurk61SQpC7cwEQ~uQUyMOScEkivoz1Cvz6VynJxUu~hbBATDeOpdfKQSWg4gPbBLSORmT3I2qk5n8hMxEEGpGqRm5ttYvIeKGj2cH5o6zPH0-R2PeZs9~KlfwiuKhBE7rfRLCAPfXTD6mxpsMyz2BagA34G1Bp~3TAqp0M8fV0ZJGLo5BM98hak7t215-wjCP22Rb9kqeJ8P780b9Zk8kcnZ7OK367Vv46DO14N5SYug1biXeGxLPw3p76Sd0NoBAZ~kvn~lcnMyKndu-l1pQ2dGcK9ctWw__&Key-Pair-Id=K3USGZIKWMDCSX">
+
+<link rel="canonical" href="https://github.com/Victor1314/Victor1314.github.io/2025/03/05/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8modal/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>开源项目minimind-zero学习 | 陈牧之的网址</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/Victor1314/Victor1314.github.io/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈牧之的网址</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录遇到的人，读过的书，走过的路</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/Victor1314/Victor1314.github.io/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/Victor1314/Victor1314.github.io/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://github.com/Victor1314/Victor1314.github.io/2025/03/05/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8modal/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/Victor1314/Victor1314.github.io/images/avatar.gif">
+      <meta itemprop="name" content="chenmuzhi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈牧之的网址">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          开源项目minimind-zero学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-05 00:00:00" itemprop="dateCreated datePublished" datetime="2025-03-05T00:00:00+08:00">2025-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/Victor1314/Victor1314.github.io/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、快速开始"><a href="#一、快速开始" class="headerlink" title="一、快速开始"></a>一、快速开始</h2><p>采用预训练(pretrain)和监督微调（Supervised Fine-Tuning，sft）的方法，以最小的成本复现 <code>minimind-zero</code>, 加速通关从模型预训练，微调，到部署。</p>
+<span id="more"></span>
+
+<hr>
+<details>
+<summary>💻 环境准备</summary>
+
+
+<ul>
+<li>以下我的软硬件配置：<ul>
+<li><code>windows10</code> </li>
+<li><code>anaconda</code></li>
+<li><code>python10.6</code></li>
+<li><code>GPU</code>云服务平台：<a target="_blank" rel="noopener" href="https://modal.com/">modal</a></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>克隆项目</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/jingyaogong/minimind.git</span><br></pre></td></tr></table></figure>
+
+<p>  安装依赖, 进入<code>minimind</code>项目。 使用 <code>anaconda</code>或者 <code>uv</code>的同学，可以先创建虚拟环境，再安装。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(minimind) D:\minimind&gt;pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 <code>modal</code></li>
+</ol>
+<p> <code>modal</code>  是一个GPU云服务平台。如果你本地没有 <code>GPU</code>, 可以使用云服务平台来训练模型。 </p>
+<p>新手入门，四步走如下：</p>
+<ul>
+<li><p>首先，在官网注册。官网地址： <a target="_blank" rel="noopener" href="https://modal.com/">https://modal.com/</a></p>
+</li>
+<li><p>本地安装 <code>modal</code> 的客户端，配置 <code>key</code> 。有<code>python</code>环境和<code>pip</code>包的话，以下两个命令搞定</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install moda</span><br><span class="line">python -m modal setup</span><br></pre></td></tr></table></figure>
+
+<p>注意：需要提前安装 <code>pip</code>  和 <code>python</code> 。 </p>
+<ul>
+<li>编写脚本文件 。在脚本文件中编写执行训练功能的函数，配置训练时的相关参数，比如：<code>GPU</code>调用，文件存储等。</li>
+<li>使用 <code>modal</code> 命令，执行脚本中相关的函数。</li>
+</ul>
+<p><img src="https://d41chssnpqdne.cloudfront.net/user_upload_by_module/chat_bot/files/59476626/kEWGm3ZmXKHKnvcY.png?Expires=1743685818&Signature=OMHlacDQErvSa7wnB4ifIorqCDpmt4DtA34Qce0hcM111ugBJ~dwSFdurk61SQpC7cwEQ~uQUyMOScEkivoz1Cvz6VynJxUu~hbBATDeOpdfKQSWg4gPbBLSORmT3I2qk5n8hMxEEGpGqRm5ttYvIeKGj2cH5o6zPH0-R2PeZs9~KlfwiuKhBE7rfRLCAPfXTD6mxpsMyz2BagA34G1Bp~3TAqp0M8fV0ZJGLo5BM98hak7t215-wjCP22Rb9kqeJ8P780b9Zk8kcnZ7OK367Vv46DO14N5SYug1biXeGxLPw3p76Sd0NoBAZ~kvn~lcnMyKndu-l1pQ2dGcK9ctWw__&Key-Pair-Id=K3USGZIKWMDCSX" alt="img"></p>
+<p><strong>tips</strong>:  注册 <code>modal</code> 赠送5$，不太够用。幸运的是绑定信用卡可以每月赠送30$. 我用的是虚拟信用卡，参考:<a target="_blank" rel="noopener" href="https://www.nobepay.com/">nobepay</a>  或者 <code>visa</code>卡。</p>
+<ol start="4">
+<li><code>modal</code> 脚本</li>
+</ol>
+<p> <code>modal</code>脚本命名为： <code>modal.train.py</code> , 放在 <code>minimind</code> 的根目录下面。下面为训练 <code>minidmind-zero</code> 用到的</p>
+<p>脚本文件。 </p>
+<p>主要进行的操作为：定义镜像，安装相关的依赖, 导入数据集文件；创建 <code>volume</code> , 存储训练后的模型文件;定义 <code>pretrain</code>  <code>sft</code> 的训练函数，包括：执行 <code>minimind</code>中的脚本，定义执行相关的参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">import modal</span><br><span class="line">from datetime import datetime  </span><br><span class="line">app = modal.App(&quot;minimind-training&quot;)</span><br><span class="line"></span><br><span class="line"># 定义镜像</span><br><span class="line">training_image = (modal.Image.debian_slim()</span><br><span class="line">    .pip_install([</span><br><span class="line">     </span><br><span class="line">    ])</span><br><span class="line">    .apt_install(</span><br><span class="line">    &quot;git&quot;  # 添加 git 安装</span><br><span class="line">       )</span><br><span class="line">    .run_commands([</span><br><span class="line">        &quot;git clone https://github.com/jingyaogong/minimind /root/minimind&quot;,</span><br><span class="line">        &quot;cd /root/minimind &amp;&amp; pip install -r requirements.txt&quot;,</span><br><span class="line">         &quot;mkdir -p /root/minimind/out&quot;  # 确保输出目录存在</span><br><span class="line">    ])</span><br><span class="line">    .add_local_dir(&quot;dataset&quot;, remote_path=&quot;/root/minimind/dataset&quot;)  # 使用add_local_dir</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 使用volume确保数据持久化</span><br><span class="line">volume  = modal.Volume.from_name(&quot;my-volume&quot;)  # my-volume 替换为你创建的volume名称</span><br><span class="line"></span><br><span class="line">@app.function(</span><br><span class="line">    image=training_image,</span><br><span class="line">    gpu=&quot;A100&quot;,  # 请求使用 GPU</span><br><span class="line">    timeout=3600,  # 设置超时时间为1小时</span><br><span class="line">    max_containers=1,  </span><br><span class="line">    volumes=&#123;&quot;/root/minimind/out&quot;: volume&#125;</span><br><span class="line">)</span><br><span class="line">def train_pretrain():</span><br><span class="line">    import os</span><br><span class="line">    os.chdir(&quot;/root/minimind&quot;)</span><br><span class="line">    os.system(&quot;python train_pretrain.py&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.function(</span><br><span class="line">    image=training_image,</span><br><span class="line">    gpu=&quot;A100&quot;,  # 请求使用 GPU</span><br><span class="line">    timeout=3600,  # 设置超时时间为1小时</span><br><span class="line">    max_containers=1,  </span><br><span class="line">    volumes=&#123;&quot;/root/minimind/out&quot;: volume&#125;</span><br><span class="line">)</span><br><span class="line">def train_sft():</span><br><span class="line"></span><br><span class="line">    import os    </span><br><span class="line">    volume.reload()</span><br><span class="line">    os.chdir(&quot;/root/minimind&quot;)</span><br><span class="line">    os.system(&quot;python train_full_sft.py&quot;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>对于训练函数的设置，可以根据训练函数，调整 <code>gpu</code> 类型和 <code>timeout</code>。注意，尽可能设置 <code>timeout</code> 长一些，否则会容易超时。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@app.function(</span><br><span class="line">    image=training_image,</span><br><span class="line">    gpu=&quot;A100&quot;,  # 请求使用 GPU</span><br><span class="line">    timeout=3600,  # 设置超时时间为1小时</span><br><span class="line">    max_containers=1,  </span><br><span class="line">    volumes=&#123;&quot;/root/minimind/out&quot;: volume&#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><code>my-volume</code> 是你创建的 <code>volume</code>名称，从<a target="_blank" rel="noopener" href="https://modal.com/storage%E4%B8%AD%E6%9F%A5%E7%9C%8B%EF%BC%8C%E9%9C%80%E8%A6%81%E6%8F%90%E5%89%8D%E5%88%9B%E5%BB%BA%EF%BC%8C%E5%91%BD%E4%BB%A4%E5%A6%82%E4%B8%8B%E3%80%82">https://modal.com/storage中查看，需要提前创建，命令如下。</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">% modal volume create my-volume</span><br><span class="line">Created volume &#x27;my-volume&#x27; in environment &#x27;main&#x27;.</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="5">
+<li>数据集</li>
+</ol>
+<p>需要用到 <code>pretrian</code> 和 <code>sft</code>  各自的数据集.  下载地址: <a target="_blank" rel="noopener" href="https://www.modelscope.cn/datasets/gongjy/minimind_dataset/files">https://www.modelscope.cn/datasets/gongjy/minimind_dataset/files</a> </p>
+<p>仅需要下载 <code>pretrain_hq.jsonl</code> 和 <code>sft_mini_512.jsonl</code>，放到项目 <code>miminid/dataset</code> 下。</p>
+<p>在脚本中，我们将 <code>dataset</code> 挂载进 容器的 <code>/root/minimind/dataset</code> 目录。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.add_local_dir(&quot;dataset&quot;, remote_path=&quot;/root/minimind/dataset&quot;)  # 使用add_local_dir</span><br></pre></td></tr></table></figure>
+
+
+
+<p>至此，相关环境已经准备好了。下面即将进入激动人心的训练环节。在此次请检查：</p>
+<ul>
+<li>成功安装 <code>modal</code> 客户端</li>
+<li><code>modal</code> 上创建了 <code>volume</code>，<code>modal.train.py</code>中的<code>volume</code>名称要替换成你所创建的 <code>volume</code> 名称</li>
+<li><code>minimind</code>根目录下存在 <code>modal.train.py</code> 脚本</li>
+<li><code>minimind/dataset</code> 内存在<code>pretrain_hq.jsonl</code> 和 <code>sft_mini_512.jsonl</code>这两个数据集。</li>
+</ul>
+<hr>
+</details> <details> <summary>🚀 模型训练</summary>
+
+
+<p>通过<strong>终端</strong>进入到 <code>minimind</code>目录</p>
+<h4 id="预训练-pretrain"><a href="#预训练-pretrain" class="headerlink" title="预训练(pretrain)"></a>预训练(pretrain)</h4><p>执行预训练的脚本.</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modal run modal_train.py::train_pretrain</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250320232517933.png" alt="image-20250320232517933"></p>
+<p>从日志输出,看出多少个Epoch，执行了多少步，loss值和学习率为多少。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321000118852.png" alt="image-20250321000118852"></p>
+<p>通过生成的链接，可以远程访问训练情况</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250320232658106.png" alt="image-20250320232658106"></p>
+<p>相关的指标,可以查看训练时的系统的运行情况。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321001112385.png" alt="image-20250321001112385"></p>
+<p>训练结束，可以从从 <code>volume</code> 查看训练结果。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321165059127.png" alt="image-20250321165059127"></p>
+<h4 id="监督微调-sft"><a href="#监督微调-sft" class="headerlink" title="监督微调(sft)"></a>监督微调(sft)</h4><p>执行命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modal run modal_train.py::train_sft</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250321171223179.png" alt="image-20250321171223179"></p>
+<p>结束之后，出现结果文件。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322085053992.png" alt="image-20250322085053992"></p>
+<p>下载<code>volume</code>中的训练结果到本地 <code>\minimind\out</code>文件夹中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">modal volume get my-volume full_sft_512.pth pretrain_512.pth</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322090720246.png" alt="image-20250322090720246"></p>
+<p>至此，训练结束，让我们来测试一下。</p>
+<p><code>minimind</code>项目中提供运行模型的脚本, 直接执行就可以。执行之前可以看下相关参数，比如：<code>model_mode</code> 指的是执行什么模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">parser.add_argument(&#x27;--model_mode&#x27;, default=1, type=int,</span><br><span class="line">                       help=&quot;0: 预训练模型，1: SFT-Chat模型，2: RLHF-Chat模型，3: Reason模型&quot;)</span><br></pre></td></tr></table></figure>
+
+
+<p>测试 <code>sft</code> 模型</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python eval_model.py --model_mode 1</span><br></pre></td></tr></table></figure>
+
+
+
+<p>选择手动测试</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322094629054.png" alt="image-20250322094629054"></p>
+<p> 选择自动测试 </p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322094857989.png" alt="image-20250322094857989"></p>
+</details> <details> <summary>🌐 模型部署</summary>
+
+<p>通过将训练好的模型上传 <code>huggingface</code>  ,并且通过<code>huggingface</code> 的 <code>space</code> 创建运行模型的<code>demo</code> </p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/docs">https://huggingface.co/docs</a> </p>
+<h4 id="转化为HF格式"><a href="#转化为HF格式" class="headerlink" title="转化为HF格式"></a>转化为HF格式</h4><p>目前是的 <code>pytorch</code> 的格式,  需要先转化成 <code>HF</code>格式，才能上传到 <code>huggingface</code>。模型文件在<code>minimind\out\full_sft_512.pth</code> 。</p>
+<p>格式问题，可以参考下面这篇文章。<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/HXMLPM2KNkO6Mah-4btaEQ">https://mp.weixin.qq.com/s/HXMLPM2KNkO6Mah-4btaEQ</a></p>
+<p>项目中提供了转化的脚本, 在 <code>srcipts\convert_model.py</code> 。</p>
+<p>源代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    lm_config = LMConfig(dim=512, n_layers=8, max_seq_len=8192, use_moe=False)</span><br><span class="line"></span><br><span class="line">    torch_path = f&quot;../out/rlhf_&#123;lm_config.dim&#125;&#123;&#x27;_moe&#x27; if lm_config.use_moe else &#x27;&#x27;&#125;.pth&quot;</span><br><span class="line"></span><br><span class="line">    transformers_path = &#x27;../MiniMind2-Small&#x27;</span><br><span class="line"></span><br><span class="line">    # convert torch to transformers model</span><br><span class="line">    convert_torch2transformers(torch_path, transformers_path)</span><br></pre></td></tr></table></figure>
+
+<p>这里修改将 <code>stf</code> 之后的模型进行转化.<strong>请替换模型路径，修改你的模型名称</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    lm_config = LMConfig(dim=512, n_layers=8, max_seq_len=8192, use_moe=False)</span><br><span class="line"></span><br><span class="line">   # torch_path = f&quot;../out/rlhf_&#123;lm_config.dim&#125;&#123;&#x27;_moe&#x27; if lm_config.use_moe else &#x27;&#x27;&#125;.pth&quot;</span><br><span class="line"></span><br><span class="line">    transformers_path = &#x27;../MiniMind-zero&#x27;  # 你想要的名称</span><br><span class="line">    torch_path = &quot;../out/full_sft_512.pth&quot;  # 你的.pth文件路径</span><br><span class="line">    # convert torch to transformers model</span><br><span class="line">    convert_torch2transformers(torch_path, transformers_path)</span><br><span class="line"></span><br><span class="line">    # # convert transformers to torch model</span><br><span class="line">    # convert_transformers2torch(transformers_path, torch_path)</span><br></pre></td></tr></table></figure>
+
+<p>执行脚本之后, 在根目录下出现<code>MimiMind-zero</code>文件夹</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322201705561.png" alt="image-20250322201705561"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327222336660.png" alt="image-20250327222336660"></p>
+<h4 id="上传到HF"><a href="#上传到HF" class="headerlink" title="上传到HF"></a>上传到HF</h4><p>新建模型：<a target="_blank" rel="noopener" href="https://huggingface.co/new-space">https://huggingface.co/new-space</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250322204200340.png" alt="image-20250322204200340"></p>
+<p>通过网页直接上传模型。（中间折腾过git, huggingface-cli，发现直接在<strong>网页上传坑是最少</strong>的）</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250323074542851.png" alt="image-20250323074542851"></p>
+<p>修改 <code>readme</code> 文件，添加相应的标签</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">language: zh</span><br><span class="line">tags:</span><br><span class="line">  - pytorch</span><br><span class="line">  - gpt</span><br><span class="line">  - transformers</span><br><span class="line">  - text-generation-inference</span><br><span class="line">library_name: transformers</span><br><span class="line">pipeline_tag: text-generation</span><br><span class="line">inference: true</span><br></pre></td></tr></table></figure>
+
+<p>至此你的模型已经上传好了。</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/cmz1024/minimind-zero/tree/main">https://huggingface.co/cmz1024/minimind-zero/tree/main</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327222957713.png" alt="image-20250327222957713"></p>
+<h4 id="创建Space，show出你的模型"><a href="#创建Space，show出你的模型" class="headerlink" title="创建Space，show出你的模型"></a>创建Space，show出你的模型</h4><p>创建space,<a target="_blank" rel="noopener" href="https://huggingface.co/new-space.%E6%88%91%E9%80%89%E6%8B%A9%E7%9A%84%E6%98%AF%E9%80%9A%E8%BF%87">https://huggingface.co/new-space.我选择的是通过</a> <code>Gradio</code> 创建，并勾选<code>chatbot</code>。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224010360.png" alt="image-20250327224010360"></p>
+<p>创建成功会进来这里</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224103524.png" alt="image-20250327224103524"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327224139074.png" alt="image-20250327224139074"></p>
+<p>进入的 <code>app.py</code> ，发现是通过 <code>InferenceClient</code> 来调用模型。这是 <code>HF</code> 提供的 <code>Inference API</code> 。但是咱们的模型是基于 <code>pytorch</code>构建，要使用<code>Inference API</code> 必须要用 <code>transformers</code> 来构建。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import gradio as gr</span><br><span class="line">from huggingface_hub import InferenceClient</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">For more information on `huggingface_hub` Inference API support, please check the docs: https://huggingface.co/docs/huggingface_hub/v0.22.2/en/guides/inference</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">client = InferenceClient(&quot;HuggingFaceH4/zephyr-7b-beta&quot;) # hugginface 提供的Inference API</span><br></pre></td></tr></table></figure>
+
+<p>当然也可以转化，为了方便，我采用直接在 <code>Gradio</code> 加载 <code>pytorch</code> 模型。</p>
+<p>大家可以到这里<a target="_blank" rel="noopener" href="https://cnb.cool/huoshuiai/LLM101-chenmuzhi/-/blob/main/app.py">下载代码</a>，替换<code>app.py</code>， 其中要修改的是你的模型路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 加载模型和分词器</span><br><span class="line">model_path = &quot;cmz1024/minimind-zero&quot;  # 替换为你的模型路径</span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(model_path)</span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(model_path, trust_remote_code=True)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>至此，你就创建了一个展示demo, 把你的喜悦和进步分享给你的朋友吧。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250327201730558.png" alt="image-20250327201730558"></p>
+</details>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Victor1314/Victor1314.github.io/2024/11/13/20241130080759-%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E5%8F%91%E6%98%8E%E5%8E%9F%E7%90%86/" rel="prev" title="入门Triz的最佳书籍">
+      <i class="fa fa-chevron-left"></i> 入门Triz的最佳书籍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/Victor1314/Victor1314.github.io/2025/04/05/20250407094337-%E6%B8%85%E6%98%8E%EF%BC%8C%E6%82%BC%E5%BF%B5%E7%88%B7%E7%88%B7%E3%80%82/" rel="next" title="爷爷">
+      爷爷 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">一、快速开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83-pretrain"><span class="nav-number">1.0.1.</span> <span class="nav-text">预训练(pretrain)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%91%E7%9D%A3%E5%BE%AE%E8%B0%83-sft"><span class="nav-number">1.0.2.</span> <span class="nav-text">监督微调(sft)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AC%E5%8C%96%E4%B8%BAHF%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.0.3.</span> <span class="nav-text">转化为HF格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%88%B0HF"><span class="nav-number">1.0.4.</span> <span class="nav-text">上传到HF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BASpace%EF%BC%8Cshow%E5%87%BA%E4%BD%A0%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.0.5.</span> <span class="nav-text">创建Space，show出你的模型</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">chenmuzhi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/Victor1314/Victor1314.github.io/archives/">
+        
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">chenmuzhi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/Victor1314/Victor1314.github.io/lib/anime.min.js"></script>
+  <script src="/Victor1314/Victor1314.github.io/lib/velocity/velocity.min.js"></script>
+  <script src="/Victor1314/Victor1314.github.io/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/Victor1314/Victor1314.github.io/js/utils.js"></script>
+
+<script src="/Victor1314/Victor1314.github.io/js/motion.js"></script>
+
+
+<script src="/Victor1314/Victor1314.github.io/js/schemes/muse.js"></script>
+
+
+<script src="/Victor1314/Victor1314.github.io/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
