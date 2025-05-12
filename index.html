@@ -455,6 +455,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/03/23/waht%20is%20lora/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/03/23/waht%20is%20lora/" class="post-title-link" itemprop="url">Lora微调是什么</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-23 00:00:00" itemprop="dateCreated datePublished" datetime="2025-03-23T00:00:00+08:00">2025-03-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Lora微调是什么"><a href="#Lora微调是什么" class="headerlink" title="Lora微调是什么"></a>Lora微调是什么</h1><p>Lora微调(Low-Rank Adaptation)，是一种高效率的微调技术。可以降低微调参数的数量，从而降低微调所需要的资源。</p>
+<p>Lora的论文地址：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2106.09685">https://arxiv.org/abs/2106.09685</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250329080041281.png" alt="image-20250329080041281"></p>
+<p>Lora微调为什么高效？ </p>
+<p>让我们来看下Lora的原理。</p>
+<p>对于全参微调的过程，可以简单表示</p>
+<p>W1&#x3D; W  + △W</p>
+<p> W是微调前的权重参数，△W是权重的更新，W  + △W得到新的权重参数W１。需要注意，△W在微调的过程中更新，和W具有一样的维度大小。</p>
+<p>Low-Rank Adaptation，Rank是矩阵的秩，秩是矩阵中线性无关的向量值，不会超过最小的维度值。比如一个 30* 2的矩阵，rank 最大为2.</p>
+<p>降低秩，某种程度上可以减少训练权重。</p>
+<p>Lora做了一个这样的事情。将 △W 近似成 AB, 两个矩阵相乘.</p>
+<p>W1≈  W   +  AB</p>
+<p>A和B是一个秩相对很小的矩阵, 一般设置为16.</p>
+<p>你会发现了吗？ 将AB替换 △W之后,需要训练的参数就大大减少.  </p>
+<p>从工程实践的角度来看,  Lora参数可以单独训练, 单独保存, 推理的时候再和原始的权重一起加载. </p>
+<p>这个得益于矩阵乘法乘法的分配律,   </p>
+<p>XW1  &#x3D; XW +  XAB</p>
+<p>X为模型的输入，求解输出的时候，我们可以分开计算原模型的输出XW 和Lora模型的输出XAB，再把他们拼接起来。</p>
+<p>如何在码层面实现Lora？ </p>
+<p>首先，我们要定义一个类LoraLayer,  继承 Module。 传入参数包括d_in, d_out, rank，以及以及缩放参数alpha。 </p>
+<p>包含两个权重矩阵:A和B, A初始化，B全为0.</p>
+<p>forwad函数定义为 缩放alpha*  （(X @B @C)。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LoRALayer</span>(torch.nn.Module):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, in_dim, out_dim, rank, alpha</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.A = torch.nn.Parameter(torch.empty(in_dim, rank))</span><br><span class="line">        torch.nn.init.kaiming_uniform_(<span class="variable language_">self</span>.A, a=math.sqrt(<span class="number">5</span>))</span><br><span class="line">        <span class="variable language_">self</span>.B = torch.nn.Parameter(torch.zeros(rank, out_dim))</span><br><span class="line">        <span class="variable language_">self</span>.alpha = alpha</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">        x = <span class="variable language_">self</span>.alpha * (x @ <span class="variable language_">self</span>.A @ <span class="variable language_">self</span>.B)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>代码中使用了torch.nn.init.kaiming_uniform_</code> ,是一中对权重参数初始化的方法，它能确保A在开始训练时，不会突然梯度消失或者爆炸，有良好的收敛效果。</p>
+<p>在有了基本的Lora类之后，我们需要实现上面提到的拼接输出的功能。也就是把常规的线性层和Lora类组合起来形成新的类，forwad函数为两个的拼接输出。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LinearWithLoRA</span>(torch.nn.Module):</span><br><span class="line">	<span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, linear, rank, alpha</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        <span class="variable language_">self</span>.linear = linear</span><br><span class="line">        <span class="variable language_">self</span>.lora = LoRALayer(</span><br><span class="line">        linear.in_features,</span><br><span class="line">        linear.out_features,</span><br><span class="line">        rank,</span><br><span class="line">        alpha</span><br><span class="line">)</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">forward</span>(<span class="params">self, x</span>):</span><br><span class="line">    	<span class="keyword">return</span> <span class="variable language_">self</span>.linear(x) + <span class="variable language_">self</span>.lora(x)</span><br></pre></td></tr></table></figure>
+
+<p>再就是需要实现一个函数，把模型中的线性层，都替换成待有Lora的线性层。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">replace_linear_with_lora</span>(<span class="params">model, rank, alpha</span>):</span><br><span class="line">    <span class="keyword">for</span> name, module <span class="keyword">in</span> model.named_children():</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(module, torch.nn.Linear):</span><br><span class="line">            <span class="comment"># 如果是线性层，替换为 LoRA 版本</span></span><br><span class="line">            <span class="built_in">setattr</span>(model, name, LinearWithLoRA(module, rank, alpha))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># 如果不是线性层，递归处理其子模块</span></span><br><span class="line">            replace_linear_with_lora(module, rank, alpha)</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>model.named_children()</code> 是 <code>nn.Module</code> 中返回子模块的方法，返回对象是一个元组。仅包含子模块，不包含子模块的子模块，所以下面要采用递归调用的方式。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/03/05/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8modal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -529,7 +627,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/01/23/20250123-IA%E8%B7%AF%E6%BC%94/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/02/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E8%B5%84%E6%BA%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -543,7 +641,251 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2025/01/23/20250123-IA%E8%B7%AF%E6%BC%94/" class="post-title-link" itemprop="url">Transformer的八个作者</a>
+            <a href="/2025/02/20/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0%E8%B5%84%E6%BA%90/" class="post-title-link" itemprop="url">线性代数资源</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2025-02-20T00:00:00+08:00">2025-02-20</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="线性代数"><a href="#线性代数" class="headerlink" title="线性代数"></a>线性代数</h4><p>如果你和我一样，线性代数的知识已经还给老师，可以 <code>gpt</code>老师再学习一下。</p>
+<p>资源： </p>
+<ul>
+<li><p>李沐动手深度学习中线性代数部分：<a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_preliminaries/linear-algebra.html#id16">https://zh.d2l.ai/chapter_preliminaries/linear-algebra.html#id16</a> </p>
+</li>
+<li><p>MIT的线性代数视频　　　　　　　　<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16Z4y1U7oU/?spm_id_from=333.337.search-card.all.click">https://www.bilibili.com/video/BV16Z4y1U7oU/?spm_id_from=333.337.search-card.all.click</a></p>
+</li>
+<li><p>MIT的线性代数视频配套笔记　　　　<a target="_blank" rel="noopener" href="https://github.com/zlotus/notes-linear-algebra">https://github.com/zlotus/notes-linear-algebra</a>　　</p>
+</li>
+<li><p>让GPT帮忙列举关键知识　　　　　　<a target="_blank" rel="noopener" href="https://monica.im/share/chat?shareId=EUcO6esygAdFjISx">https://monica.im/share/chat?shareId=EUcO6esygAdFjISx</a></p>
+</li>
+</ul>
+<p>　</p>
+<p>防止陷入为了学习而学习的陷阱，可以先让 <code>gpt</code> 列举关键的知识和问题。</p>
+<blockquote>
+<p>请假扮LLM的学习新手，请列举你在学习ＬＬＭ时，最高频的２４个关于线性代数的问题。并站在老师的角度简单解答。</p>
+<p>以下是以LLM学习新手的视角列举的24个关于线性代数的高频问题，并站在老师的角度给出简明解答：</p>
+<hr>
+<h3 id="一、矩阵与向量基础"><a href="#一、矩阵与向量基础" class="headerlink" title="一、矩阵与向量基础"></a><strong>一、矩阵与向量基础</strong></h3><ol>
+<li><strong>什么是矩阵，为什么LLM中到处都有矩阵？</strong><ul>
+<li>矩阵是二维数组，用于存储数据或表示变换。在LLM中，矩阵用于存储权重、输入和输出的关系。</li>
+</ul>
+</li>
+<li><strong>什么是向量，向量和矩阵有什么区别？</strong><ul>
+<li>向量是只有一行或一列的矩阵，表示单个数据点或特征集合。矩阵可以看作是多个向量的集合。</li>
+</ul>
+</li>
+<li><strong>矩阵乘法为什么重要？</strong><ul>
+<li>矩阵乘法是LLM中计算输入与权重关系的核心操作，用于前向传播和反向传播。</li>
+</ul>
+</li>
+<li><strong>矩阵转置有什么用？</strong><ul>
+<li>矩阵转置用于调整矩阵形状，特别是在计算点积或反向传播时。</li>
+</ul>
+</li>
+<li><strong>什么是单位矩阵，为什么它重要？</strong><ul>
+<li>单位矩阵是对角线全为1，其余为0的矩阵。它是矩阵运算中的“1”，不会改变矩阵的值。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="二、子空间与维度"><a href="#二、子空间与维度" class="headerlink" title="二、子空间与维度"></a><strong>二、子空间与维度</strong></h3><ol>
+<li><strong>什么是列空间和零空间？</strong><ul>
+<li>列空间是矩阵列的线性组合，表示数据的有效维度；零空间是矩阵映射到零的向量集合，用于判断解的存在性。</li>
+</ul>
+</li>
+<li><strong>什么是线性相关性？为什么要关注它？</strong><ul>
+<li>如果一个向量可以由其他向量线性组合得到，它们是线性相关的。在LLM中，线性无关性表示特征独立性。</li>
+</ul>
+</li>
+<li><strong>什么是基？基和维数有什么关系？</strong><ul>
+<li>基是一个向量集合，可以表示空间中的所有向量。基的数量就是维数。</li>
+</ul>
+</li>
+<li><strong>为什么LLM中要关注高维空间？</strong><ul>
+<li>高维空间能表示更多的特征和复杂关系，但也带来计算和过拟合的挑战。</li>
+</ul>
+</li>
+<li><strong>正交向量是什么意思？</strong><ul>
+<li>正交向量是互相垂直的向量，表示它们之间没有相互影响。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="三、矩阵分解"><a href="#三、矩阵分解" class="headerlink" title="三、矩阵分解"></a><strong>三、矩阵分解</strong></h3><ol>
+<li><strong>什么是特征值和特征向量？为什么重要？</strong><ul>
+<li>特征值表示矩阵变换的缩放因子，特征向量表示不变方向。在LLM中，它们用于降维和稳定性分析。</li>
+</ul>
+</li>
+<li><strong>什么是奇异值分解（SVD）？</strong><ul>
+<li>SVD将矩阵分解为三个部分，用于降维、压缩和特征提取。</li>
+</ul>
+</li>
+<li><strong>对角化是什么意思？为什么要对角化矩阵？</strong><ul>
+<li>对角化将矩阵转换为对角矩阵，简化运算，特别是在动力学分析中。</li>
+</ul>
+</li>
+<li><strong>什么是QR分解？</strong><ul>
+<li>QR分解将矩阵分解为正交矩阵Q和上三角矩阵R，用于求解线性方程。</li>
+</ul>
+</li>
+<li><strong>LU分解在LLM中有用吗？</strong><ul>
+<li>LU分解将矩阵分解为上三角和下三角矩阵，用于高效求解方程组。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="四、投影与最小二乘"><a href="#四、投影与最小二乘" class="headerlink" title="四、投影与最小二乘"></a><strong>四、投影与最小二乘</strong></h3><ol>
+<li><strong>什么是投影矩阵？</strong><ul>
+<li>投影矩阵用于将数据投影到一个子空间，常用于降维和回归分析。</li>
+</ul>
+</li>
+<li><strong>最小二乘法是如何工作的？</strong><ul>
+<li>最小二乘法通过最小化误差平方和，找到最佳拟合线或平面。</li>
+</ul>
+</li>
+<li><strong>什么是Gram-Schmidt正交化？</strong><ul>
+<li>它是一种将向量集合转化为正交基的算法，用于提高数值稳定性。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="五、优化与正定性"><a href="#五、优化与正定性" class="headerlink" title="五、优化与正定性"></a><strong>五、优化与正定性</strong></h3><ol>
+<li><strong>什么是正定矩阵？为什么它重要？</strong><ul>
+<li>正定矩阵的特征值全为正，表示优化问题有唯一解，常用于梯度下降。</li>
+</ul>
+</li>
+<li><strong>什么是半正定矩阵？</strong><ul>
+<li>半正定矩阵的特征值非负，用于核方法和支持向量机。</li>
+</ul>
+</li>
+<li><strong>矩阵秩是什么？为什么它重要？</strong><ul>
+<li>秩是矩阵中线性无关行或列的数量，表示数据的有效维度。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="六、数据变换与应用"><a href="#六、数据变换与应用" class="headerlink" title="六、数据变换与应用"></a><strong>六、数据变换与应用</strong></h3><ol>
+<li><p><strong>什么是线性变换？</strong></p>
+<ul>
+<li>线性变换是通过矩阵操作改变数据的表示方式，用于特征提取。</li>
+</ul>
+</li>
+<li><p><strong>基变换在LLM中有什么用？</strong></p>
+<ul>
+<li>基变换用于切换数据的表示空间，特别是在降维和特征工程中。</li>
+</ul>
+</li>
+<li><p><strong>伪逆矩阵是什么？为什么需要它？</strong></p>
+<p>伪逆是非方阵的广义逆，用于解决欠定或超定问题。</p>
+</li>
+</ol>
+</blockquote>
+<p>对核心概念和关键问题建立整体的框架即可，遇到细节问题再即用即查。 </p>
+<blockquote>
+<p>请列举LLM中用到的最高频的线性代数知识。</p>
+<h3 id="1-矩阵与向量基础"><a href="#1-矩阵与向量基础" class="headerlink" title="1. 矩阵与向量基础"></a><strong>1. 矩阵与向量基础</strong></h3><ul>
+<li><strong>第01集 方程组的几何解释</strong><br> 理解线性方程组的几何意义是研究高维空间中数据关系的基础。</li>
+<li><strong>第03集 乘法和逆矩阵</strong><br> 矩阵乘法是神经网络前向传播和反向传播的核心操作；逆矩阵在优化问题中有时会用到。</li>
+</ul>
+<hr>
+<h3 id="2-矩阵分解与空间"><a href="#2-矩阵分解与空间" class="headerlink" title="2. 矩阵分解与空间"></a><strong>2. 矩阵分解与空间</strong></h3><ul>
+<li><strong>第06集 列空间和零空间</strong><br> 列空间和零空间帮助理解矩阵的性质，尤其在数据降维和特征提取中。</li>
+<li><strong>第10集 四个基本子空间</strong><br> 四个子空间（列空间、零空间、行空间、左零空间）是矩阵运算和数据表示的核心。</li>
+<li><strong>第16集 投影矩阵和最小二乘</strong><br> 最小二乘法是机器学习中线性回归的理论基础。</li>
+<li><strong>第17集 正交矩阵和Gram-Schmidt正交化</strong><br> 正交化在构造正交基和特征值分解中非常重要。</li>
+<li><strong>第21集 特征值和特征向量</strong><br> 是降维（如PCA）、谱聚类和神经网络稳定性分析的核心。</li>
+<li><strong>第22集 对角化和A的幂</strong><br> 对角化用于简化矩阵运算，尤其在动力系统和递归网络中。</li>
+<li><strong>第30集 奇异值分解（SVD）</strong><br> SVD是推荐系统、图像压缩和自然语言处理（如词嵌入）中的关键技术。</li>
+</ul>
+<hr>
+<h3 id="3-优化与正定性"><a href="#3-优化与正定性" class="headerlink" title="3. 优化与正定性"></a><strong>3. 优化与正定性</strong></h3><ul>
+<li><strong>第26集 对称矩阵及正定性</strong><br> 对称正定矩阵在优化问题（如梯度下降）中至关重要。</li>
+<li><strong>第28集 正定矩阵和最小值</strong><br> 正定性保证优化问题有唯一解，是深度学习中损失函数设计的重要理论。</li>
+</ul>
+<hr>
+<h3 id="4-数据变换与应用"><a href="#4-数据变换与应用" class="headerlink" title="4. 数据变换与应用"></a><strong>4. 数据变换与应用</strong></h3><ul>
+<li><strong>第31集 线性变换及对应矩阵</strong><br> 线性变换是深度学习中激活函数和特征变换的数学基础。</li>
+<li><strong>第32集 基变换和图像压缩</strong><br> 基变换用于数据表示的变换，图像压缩相关技术（如PCA）也依赖于此。</li>
+<li><strong>第34集 左右逆和伪逆</strong><br> 伪逆矩阵在处理欠定或超定系统时非常重要，广泛用于数据拟合和模型校正。</li>
+</ul>
+<hr>
+<h3 id="5-其他重要知识点"><a href="#5-其他重要知识点" class="headerlink" title="5. 其他重要知识点"></a><strong>5. 其他重要知识点</strong></h3><ul>
+<li><strong>第14集 正交向量与子空间</strong><br> 正交性是高效计算和简化问题的关键。</li>
+<li><strong>第23集 微分方程和exp(At)</strong><br> 在时间序列建模和连续时间系统中有应用。</li>
+<li><strong>第24集 马尔可夫矩阵、傅立叶级数</strong><br> 马尔可夫矩阵用于概率建模，傅立叶变换在信号处理与卷积神经网络中广泛应用。</li>
+</ul>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h3><p>最重要的知识点包括：</p>
+<ul>
+<li>矩阵分解（LU分解、SVD、特征值分解）</li>
+<li>空间与子空间（列空间、零空间、正交性）</li>
+<li>投影与最小二乘法</li>
+<li>正定矩阵与优化</li>
+<li>奇异值分解与基变换</li>
+</ul>
+<p>这些内容构成了大模型数学基础的核心部分。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/01/23/20250123-transformer%20author/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/23/20250123-transformer%20author/" class="post-title-link" itemprop="url">Transformer的八个作者</a>
         </h2>
 
         <div class="post-meta">
@@ -1014,155 +1356,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2024/07/05/L%E8%80%81%E5%B8%88%E4%BC%9A%E9%9D%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/06/05/ACT%20%E5%88%86%E4%BA%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/06/05/ACT%20%E5%88%86%E4%BA%AB/" class="post-title-link" itemprop="url">跳出头脑，拥抱生活</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-06-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-06-05T00:00:00+08:00">2024-06-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>以下为24年年中基于ACT的一次主题分享.</p>
-<p>接纳与承诺疗法（Acceptance and Commitment Therapy, ACT）是一种基于实证的心理治疗方法，目标是通过提升心理灵活性来改善生活质量。ACT教导个体以开放心态接受痛苦的内在体验，并根据个人价值采取行动，从而促进生活管理和个人成长。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/06/05/ACT%20%E5%88%86%E4%BA%AB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/04/14/20241001184114%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%BF%83%E6%99%BA/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/04/14/20241001184114%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%BF%83%E6%99%BA/" class="post-title-link" itemprop="url">工作的心智</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-04-14 00:00:00" itemprop="dateCreated datePublished" datetime="2024-04-14T00:00:00+08:00">2024-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>读《工作的心智》 —— 如何成为工作的主人</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/04/14/20241001184114%E5%B7%A5%E4%BD%9C%E7%9A%84%E5%BF%83%E6%99%BA/">
                 阅读全文 &raquo;
               </a>
             </div>
