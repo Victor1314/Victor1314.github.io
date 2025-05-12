@@ -228,6 +228,247 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/03/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A0%BC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/03/25/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%A0%BC%E5%BC%8F/" class="post-title-link" itemprop="url">大模型的七十二变 - 大模型有哪些格式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-03-25 00:00:00" itemprop="dateCreated datePublished" datetime="2025-03-25T00:00:00+08:00">2025-03-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:19:29" itemprop="dateModified" datetime="2025-05-12T16:19:29+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id=""><a href="#" class="headerlink" title=""></a></h4><p>大模型有不同的格式. 如果你最初接触的是 <code>meta</code> 家的羊驼大模型 <code>llama</code>, 那么 <code>GGUF</code> 格式你肯定再熟悉不过. </p>
+<p>这是由著名的开源推理项目 <code>llama.cpp</code> 研发的格式, 受到主流的推理项目如:<code>llama.cpp</code>、<code>ollama</code>和<code>vLLM</code> 的支持. </p>
+<p>如果你是用 <code>HF</code> 家推出的 <code>transformers</code>框架训练, 那么 <code>safetensors</code> 一定是你打交道最多的.它由 Hugging Face 开发的safetensors解决了传统 Python 序列化方法 (如 PyTorch 使用的 <code>pickle</code>) 中存在的安全性和效率问题。该格式使用受限的反序列化过程来防止代码执行漏洞。 那么一共有哪些模型格式呢, 各自有哪些特点呢? </p>
+<p>下面来逐一比较.</p>
+<h5 id="基本特征对比"><a href="#基本特征对比" class="headerlink" title="基本特征对比"></a>基本特征对比</h5><table>
+<thead>
+<tr>
+<th>特征</th>
+<th>GGUF</th>
+<th>PyTorch (.pt&#x2F;.pth)</th>
+<th>Safetensors</th>
+<th>ONNX</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件格式</td>
+<td>二进制单文件</td>
+<td>pickle序列化文件</td>
+<td>张量+JSON元数据</td>
+<td>计算图+张量</td>
+</tr>
+<tr>
+<td>文件扩展名</td>
+<td>.gguf</td>
+<td>.pt&#x2F;.pth</td>
+<td>.safetensors</td>
+<td>.onnx</td>
+</tr>
+<tr>
+<td>开发组织</td>
+<td>GGML社区</td>
+<td>Meta&#x2F;PyTorch</td>
+<td>HuggingFace</td>
+<td>ONNX联盟</td>
+</tr>
+<tr>
+<td>主要应用场景</td>
+<td>生产部署</td>
+<td>研发训练</td>
+<td>模型分享</td>
+<td>跨平台部署</td>
+</tr>
+</tbody></table>
+<h5 id="技术特性对比"><a href="#技术特性对比" class="headerlink" title="技术特性对比"></a>技术特性对比</h5><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>GGUF</th>
+<th>PyTorch (.pt&#x2F;.pth)</th>
+<th>Safetensors</th>
+<th>ONNX</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>量化支持</td>
+<td>强（多种方案）</td>
+<td>中等</td>
+<td>有限</td>
+<td>有限</td>
+</tr>
+<tr>
+<td>加载速度</td>
+<td>极快（mmap）</td>
+<td>慢</td>
+<td>快（mmap）</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>内存效率</td>
+<td>高</td>
+<td>低</td>
+<td>高</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>序列化方式</td>
+<td>二进制</td>
+<td>Pickle</td>
+<td>自定义二进制</td>
+<td>Protobuf</td>
+</tr>
+<tr>
+<td>计算图支持</td>
+<td>否</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+</tr>
+</tbody></table>
+<h5 id="安全性和可用性对比"><a href="#安全性和可用性对比" class="headerlink" title="安全性和可用性对比"></a>安全性和可用性对比</h5><table>
+<thead>
+<tr>
+<th>方面</th>
+<th>GGUF</th>
+<th>PyTorch (.pt&#x2F;.pth)</th>
+<th>Safetensors</th>
+<th>ONNX</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>安全性</td>
+<td>高</td>
+<td>低（pickle风险）</td>
+<td>极高</td>
+<td>高</td>
+</tr>
+<tr>
+<td>跨语言支持</td>
+<td>好</td>
+<td>差</td>
+<td>好</td>
+<td>极好</td>
+</tr>
+<tr>
+<td>修改难度</td>
+<td>困难</td>
+<td>容易</td>
+<td>中等</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>生态系统</td>
+<td>llama.cpp, ollama</td>
+<td>PyTorch生态</td>
+<td>HuggingFace</td>
+<td>广泛</td>
+</tr>
+</tbody></table>
+<h5 id="硬件支持对比"><a href="#硬件支持对比" class="headerlink" title="硬件支持对比"></a>硬件支持对比</h5><table>
+<thead>
+<tr>
+<th>硬件类型</th>
+<th>GGUF</th>
+<th>PyTorch</th>
+<th>Safetensors</th>
+<th>ONNX</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU</td>
+<td>✅</td>
+<td>🟡</td>
+<td>🟡</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>GPU</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>移动设备</td>
+<td>✅</td>
+<td>🟡</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Apple芯片</td>
+<td>✅</td>
+<td>🟡</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<p>更详细的信息参考:  <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/HXMLPM2KNkO6Mah-4btaEQ">https://mp.weixin.qq.com/s/HXMLPM2KNkO6Mah-4btaEQ</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/03/05/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8modal/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -309,6 +550,289 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2025/01/23/20250123-IA%E8%B7%AF%E6%BC%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2025/01/23/20250123-IA%E8%B7%AF%E6%BC%94/" class="post-title-link" itemprop="url">Transformer的八个作者</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2025-01-23 00:00:00" itemprop="dateCreated datePublished" datetime="2025-01-23T00:00:00+08:00">2025-01-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:19:51" itemprop="dateModified" datetime="2025-05-12T16:19:51+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>17年发表在transformer架构的重磅论文，成为了大模型的基础。当年发表论文的八个作者，现状如何？<br>论文地址：<br><a target="_blank" rel="noopener" href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250512151420054.png" alt="image-20250512151420054"></p>
+<ul>
+<li>发表论文时的相关背景</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>职位</th>
+<th>学校</th>
+<th>国家</th>
+<th>年龄</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ashish Vaswani</td>
+<td>Google Brain资深科学家</td>
+<td>南加州大学</td>
+<td>印度</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Noam Shazeer</td>
+<td>Google Brain首席软件工程师</td>
+<td>杜克大学</td>
+<td>美国</td>
+<td>41</td>
+</tr>
+<tr>
+<td>Niki Parmar</td>
+<td>Google Research软件工程师</td>
+<td>南加州大学</td>
+<td>印度</td>
+<td>27</td>
+</tr>
+<tr>
+<td>Jakob Uszkoreit</td>
+<td>Google Research高级软件工程师</td>
+<td>柏林科技大学</td>
+<td>德国</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Llion Jones</td>
+<td>Google Research软件工程师</td>
+<td>伯明翰大学</td>
+<td>英国</td>
+<td>33</td>
+</tr>
+<tr>
+<td>Aidan Gomez</td>
+<td>Google Brain实习生</td>
+<td>多伦多大学&#x2F;牛津大学</td>
+<td>加拿大</td>
+<td>22</td>
+</tr>
+<tr>
+<td>Lukasz Kaiser</td>
+<td>Google Brain高级软件工程师</td>
+<td>波兰弗罗茨瓦夫大学&#x2F;亚琛工业大学</td>
+<td>波兰</td>
+<td>35</td>
+</tr>
+<tr>
+<td>Illia Polosukhin</td>
+<td>Google Research技术主管</td>
+<td>国立技术大学</td>
+<td>美国</td>
+<td>27</td>
+</tr>
+</tbody></table>
+<ul>
+<li>从谷歌离职后现状</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>姓名</th>
+<th>离职时间</th>
+<th>新公司</th>
+<th>新职位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ashish Vaswani</td>
+<td>2021&#x2F;12, 2022&#x2F;12</td>
+<td>Adept AI Labs → Essential AI</td>
+<td>首席科学家、联合创始人</td>
+</tr>
+<tr>
+<td>Noam Shazeer</td>
+<td>2021&#x2F;11</td>
+<td>Character.ai</td>
+<td>创始人、首席执行官</td>
+</tr>
+<tr>
+<td>Niki Parmar</td>
+<td>2021&#x2F;12, 2022&#x2F;12</td>
+<td>Adept AI Labs → Essential AI</td>
+<td>CTO、联合创始人</td>
+</tr>
+<tr>
+<td>Jakob Uszkoreit</td>
+<td>2021&#x2F;7</td>
+<td>Inceptive</td>
+<td>联合创始人</td>
+</tr>
+<tr>
+<td>Llion Jones</td>
+<td>2023&#x2F;8</td>
+<td>Sakana AI</td>
+<td>创始人</td>
+</tr>
+<tr>
+<td>Aidan N. Gomez</td>
+<td>2019&#x2F;9</td>
+<td>Cohere</td>
+<td>首席科学家、联合创始人</td>
+</tr>
+<tr>
+<td>Lukasz Kaiser</td>
+<td>2021&#x2F;6</td>
+<td>OpenAI</td>
+<td>技术人员</td>
+</tr>
+<tr>
+<td>Illia Polosukhin</td>
+<td>2017&#x2F;6</td>
+<td>NEAR</td>
+<td>联合创始人</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/11/24/20241124104227-%20web-crawler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/11/24/20241124104227-%20web-crawler/" class="post-title-link" itemprop="url">follow, 一款很棒的rss订阅工具</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2024-11-24T00:00:00+08:00">2024-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:04:52" itemprop="dateModified" datetime="2025-05-12T16:04:52+08:00">2025-05-12</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>follow是一个非常好用的rss软件工具。  可以订阅主动订阅信息，无需再受到时间线信息流的冲刷。</p>
+<p>比如，你可以主动将Twiter上的科学家添加到follow中，只要他们有更新，follow就会自动更新推送给你</p>
+<p>不需要进到Twiter才看到。</p>
+<p>是不是很爽？</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250512150339150.png" alt="image-20250512150339150"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20250512150240456.png" alt="image-20250512150240456"></p>
+<ul>
+<li>resource:</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/jooooock/wechat-article-exporter">https://github.com/jooooock/wechat-article-exporter</a></p>
+<p><a target="_blank" rel="noopener" href="https://wuyaluck.com/2024/11/09/2024-11-09-wechat-articles/">https://wuyaluck.com/2024/11/09/2024-11-09-wechat-articles/</a></p>
+<p><a target="_blank" rel="noopener" href="https://app.follow.is/feeds/all/pending?view=0">文章 | Follow</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/RSSNext/follow">GitHub - RSSNext&#x2F;Follow: 🧡 Follow your favorites in one inbox</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/11/13/20241130080759-%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E4%B8%AD%E7%9A%84%E5%8F%91%E6%98%8E%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -372,6 +896,104 @@
             </div>
           <!--/noindex-->
         
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/08/26/20240826105853-docker%E9%95%9C%E5%83%8F%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2024/08/26/20240826105853-docker%E9%95%9C%E5%83%8F%E5%8E%8B%E7%BC%A9%E4%B8%8E%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">docker镜像压缩与加载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-08-26 00:00:00" itemprop="dateCreated datePublished" datetime="2024-08-26T00:00:00+08:00">2024-08-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:19:46" itemprop="dateModified" datetime="2025-05-12T16:19:46+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>背景：无法使用docker pull ，只能将镜像打包传输，到目标机器上加载。</p>
+<ol>
+<li>保存镜像为tar包，在当前的工作目录。hook.tar为文件名称</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save -o hook.tar harbor.xxx.com/test/hookup_sshl:39701ca</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>上传到别的机器。192.168.5.80是你的电脑。这个指令不太好使，可以使用xftp来传输。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp hook.tar user@192.168.5.80:D:\Downloads</span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="3">
+<li>加载镜像</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load -i hook.tar</span><br></pre></td></tr></table></figure>
+
+
+
+<p>无需下载tar文件，使用标准输入流加载镜像的命令。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L http://example.com/myimage.tar | docker load</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -630,341 +1252,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/03/05/%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%9C%E6%9C%A8%E5%A4%A7%E4%BC%9A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/03/05/%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%9C%E6%9C%A8%E5%A4%A7%E4%BC%9A/" class="post-title-link" itemprop="url">生命启发生命</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-03-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-03-05T00:00:00+08:00">2024-03-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 11:51:21" itemprop="dateModified" datetime="2025-05-09T11:51:21+08:00">2025-05-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>记一次参加线下演讲活动有感</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/03/05/%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%9C%E6%9C%A8%E5%A4%A7%E4%BC%9A/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/" class="post-title-link" itemprop="url">相电压、线电压是什么？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2024-01-05 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-05T00:00:00+08:00">2024-01-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="相是什么？"><a href="#相是什么？" class="headerlink" title="相是什么？"></a>相是什么？</h2><p>在电力系统中，”相”通常指的是交流电的一种相位。对于一个三相交流电系统来说，它由三种电流或电压组成，这三种电流或电压的相位差分别为120度。也就是说，在一个完整的360度周期中，这三种电流或电压将分别在0度、120度和240度达到峰值。这三种电流或电压通常被称为三相电的三个”相”，一般标记为A相、B相和C相。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2024/01/05/%E7%9B%B8%E7%94%B5%E5%8E%8B%E4%B8%8E%E7%BA%BF%E7%94%B5%E5%8E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/12/17/Git%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/17/Git%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">git基础知识</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2023-12-17T00:00:00+08:00">2023-12-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li><p>撤销提交的代码。</p>
-<p>stash的应用</p>
-<p>在Git中，有多种撤回提交或更改的方式，取决于你想要完成的具体操作：</p>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/17/Git%E6%93%8D%E4%BD%9C/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/12/05/20241002105256-%20llama_index%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/05/20241002105256-%20llama_index%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/" class="post-title-link" itemprop="url">llamaIndex材料</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-12-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-12-05T00:00:00+08:00">2023-12-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 11:51:21" itemprop="dateModified" datetime="2025-05-09T11:51:21+08:00">2025-05-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>20241002120539</p>
-<p>查询的cookbook。 纲领性的</p>
-<p><a target="_blank" rel="noopener" href="https://docs.llamaindex.ai/en/stable/examples/query_transformations/query_transform_cookbook/">https://docs.llamaindex.ai/en/stable/examples/query_transformations/query_transform_cookbook/</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/12/05/20241002105256-%20llama_index%E7%9A%84%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1030,7 +1321,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

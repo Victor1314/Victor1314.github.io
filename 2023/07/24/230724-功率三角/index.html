@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"victor1314.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在对逆变器Modbus编码时，涉及到几个关于功率的参数。下面简单梳理一下。 功率三角 有功功率（P, 单位：瓦特W）：这是实际做功或做有用工作的功率，例如转动一个电机，或者亮起一盏灯。 无功功率（Q, 单位：无功瓦特，即乏尔VAR）：这是由于交流电中电流和电压之间的相位差产生的功率。它对于建立电磁场是必要的，例如在电动机和变压器中。但是它不直接进行有用的工作。 视在功率（S, 单位：伏安VA）：这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="功率三角">
+<meta property="og:url" content="https://victor1314.github.io/2023/07/24/230724-%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92/index.html">
+<meta property="og:site_name" content="陈原辉的网志">
+<meta property="og:description" content="在对逆变器Modbus编码时，涉及到几个关于功率的参数。下面简单梳理一下。 功率三角 有功功率（P, 单位：瓦特W）：这是实际做功或做有用工作的功率，例如转动一个电机，或者亮起一盏灯。 无功功率（Q, 单位：无功瓦特，即乏尔VAR）：这是由于交流电中电流和电压之间的相位差产生的功率。它对于建立电磁场是必要的，例如在电动机和变压器中。但是它不直接进行有用的工作。 视在功率（S, 单位：伏安VA）：这">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-12T08:20:00.822Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://victor1314.github.io/2023/07/24/230724-%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>功率三角 | 陈原辉的网志</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈原辉的网志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录读过的书，遇到的人，走过的路，掉进的坑</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/07/24/230724-%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          功率三角
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-07-24 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-24T00:00:00+08:00">2023-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:20:00" itemprop="dateModified" datetime="2025-05-12T16:20:00+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在对逆变器Modbus编码时，涉及到几个关于功率的参数。下面简单梳理一下。</p>
+<h3 id="功率三角"><a href="#功率三角" class="headerlink" title="功率三角"></a>功率三角</h3><ol>
+<li><strong>有功功率</strong>（P, 单位：瓦特W）：这是实际做功或做有用工作的功率，例如转动一个电机，或者亮起一盏灯。</li>
+<li><strong>无功功率</strong>（Q, 单位：无功瓦特，即乏尔VAR）：这是由于交流电中电流和电压之间的相位差产生的功率。它对于建立电磁场是必要的，例如在电动机和变压器中。但是它不直接进行有用的工作。</li>
+<li><strong>视在功率</strong>（S, 单位：伏安VA）：这是交流电路中的”总”功率。它是由电压和电流的简单乘积得到的，不考虑它们之间的相位差。视在功率是有功功率和无功功率的向量和。</li>
+</ol>
+<p>视在功率、有功功率和无功功率之间的关系经常用一个被称为”功率三角”的图示来表示，其中：</p>
+<ul>
+<li><p>视在功率是三角形的斜边</p>
+</li>
+<li><p>有功功率是三角形的底边</p>
+</li>
+<li><p>无功功率是三角形的高</p>
+</li>
+<li><p>有功功率（P，单位：瓦特W）和无功功率（Q，单位：无功瓦特，即乏尔VAR）和视在功率之间的关系是：</p>
+<p>S^2 &#x3D; P^2 + Q^2</p>
+</li>
+</ul>
+<p>功率因数（PF）是有功功率与视在功率之比，也是功率三角的底边与斜边之比，即PF &#x3D; P&#x2F;S。它表示电路的效率，或者说电能有多少被转化为有用功率。当没有相位差（电压和电流完全同步）时，功率因数为1，这时所有的视在功率都被转化为有功功率。</p>
+<h3 id="相位差-无功功率的产生"><a href="#相位差-无功功率的产生" class="headerlink" title="相位差  - 无功功率的产生"></a>相位差  - 无功功率的产生</h3><p>相位差是一个描述在交流电路中电流和电压之间关系的概念。在交流电（AC）系统中，电流（I）和电压（V）通常会以一种波动的方式变化，而且这种变化是周期性的。</p>
+<p>这两个信号的波形可能并不总是完全同步的，也就是说，它们在时间上可能会有一些偏移。这个偏移就被称为”相位差”。相位差通常用度数（角度）或者弧度来衡量。如果电流和电压完全同步，我们说它们的相位差是0度；如果它们完全不同步（例如，当电压达到最大值时，电流恰好为0），我们说它们的相位差是90度。</p>
+<p>为什么这个相位差重要呢？因为在交流电系统中，实际做功（即有功功率）的部分取决于电流和电压的同步程度。如果电流和电压完全同步，那么你能得到最大的有功功率；如果它们的相位差较大，那么有功功率会减小。因此，相位差可以影响电力系统的效率。</p>
+<p>功率因数，也被称为PF（Power Factor），是电力系统中一个重要的参数，它描述了电压和电流波形之间的相位差，以及电路中的能源效率。</p>
+<p>功率因数是有功功率（P，用瓦特W表示）和视在功率（S，用伏安VA表示）之间的比例。换句话说，它是电源系统中实际用于做功的电力（有功功率）与电源系统总电力（视在功率）之间的比值。</p>
+<p>功率因数的值在0和1之间。当电压和电流完全同步（即它们的相位差为0），功率因数是1，此时所有的电能都被有效地转化为有用的功。相反，如果电流和电压之间存在相位差，即它们并不完全同步，那么功率因数就会小于1，这意味着只有部分电能被转化为有用的功，剩余的电能表现为无功功率。</p>
+<p>因此，功率因数可以被看作是一个度量，它反映了电源系统的效率，或者说，电源系统中有多少电能被有效地利用。同时，它也是一个反映电流和电压之间相位差的指标。</p>
+<p>那么无功功率是不是没有用呢，不是。无功功率具有以下重要用途。</p>
+<ol>
+<li>在电磁设备（如电动机、变压器等）中，无功功率用于建立和维持电磁场，这对于这些设备的运行是必需的。</li>
+<li>无功功率可以帮助改善电力系统的稳定性和电压质量。</li>
+<li>对无功功率的管理（如无功补偿）可以提高电力系统的效率，因为如果没有适当的无功功率管理，电力系统可能需要更高的电流来提供同样的有功功率，这会导致更大的能源损失。</li>
+</ol>
+<p>因此，尽管无功功率不直接为终端用户提供能量，但它在电力系统的运行中却起着重要的作用。</p>
+<h3 id="额定在线容量"><a href="#额定在线容量" class="headerlink" title="额定在线容量"></a>额定在线容量</h3><p>“额定在线容量”通常是指不间断电源（UPS）或某些电力系统的术语，用来表示系统在正常运行中可以持续提供的最大电力。这个参数是为了在设计和规划电力系统时，确保系统能满足所有负载的电力需求。它通常以瓦特（W）、千瓦（kW）或者伏安（VA）来衡量。</p>
+<p>对于UPS系统来说，额定在线容量表示UPS在正常运行时能够供应的最大功率，它也是决定UPS能够支持多大负载的关键参数。如果负载功率超过了UPS的额定在线容量，那么UPS可能会过载，无法保护所有的设备。 </p>
+<p>对于逆变器(PCS)来说，额定在线容量就是指PCS的输出交流电功率。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/05/Goland%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2/" rel="prev" title="goland中如何批量替换">
+      <i class="fa fa-chevron-left"></i> goland中如何批量替换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/05/%E7%BB%93%E6%9E%84%E9%98%85%E8%AF%BB/" rel="next" title="结构阅读是什么？">
+      结构阅读是什么？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92"><span class="nav-number">1.</span> <span class="nav-text">功率三角</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E4%BD%8D%E5%B7%AE-%E6%97%A0%E5%8A%9F%E5%8A%9F%E7%8E%87%E7%9A%84%E4%BA%A7%E7%94%9F"><span class="nav-number">2.</span> <span class="nav-text">相位差  - 无功功率的产生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%9D%E5%AE%9A%E5%9C%A8%E7%BA%BF%E5%AE%B9%E9%87%8F"><span class="nav-number">3.</span> <span class="nav-text">额定在线容量</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

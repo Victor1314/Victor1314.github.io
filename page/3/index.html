@@ -145,7 +145,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2022/10/21/%E3%80%8A%E6%89%93%E5%BC%80%E5%BF%83%E6%99%BA%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/08/24/230824-Linu%E5%AD%A6%E4%B9%A0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -159,7 +159,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/10/21/%E3%80%8A%E6%89%93%E5%BC%80%E5%BF%83%E6%99%BA%E3%80%8B/" class="post-title-link" itemprop="url">打开心智</a>
+            <a href="/2023/08/24/230824-Linu%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">Linu学习</a>
         </h2>
 
         <div class="post-meta">
@@ -169,14 +169,296 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-10-21 00:00:00" itemprop="dateCreated datePublished" datetime="2022-10-21T00:00:00+08:00">2022-10-21</time>
+              <time title="创建时间：2023-08-24 00:00:00" itemprop="dateCreated datePublished" datetime="2023-08-24T00:00:00+08:00">2023-08-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 11:51:21" itemprop="dateModified" datetime="2025-05-09T11:51:21+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-12 16:19:41" itemprop="dateModified" datetime="2025-05-12T16:19:41+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-tutorial.html">https://www.runoob.com/linux/linux-tutorial.html</a></p>
+<h1 id="系统目录结构"><a href="#系统目录结构" class="headerlink" title="系统目录结构"></a>系统目录结构</h1><p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164336947.png" alt="image-20230824164336947"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164400894.png" alt="image-20230824164400894"></p>
+<ul>
+<li><p><strong>&#x2F;bin</strong>：<br>bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。</p>
+</li>
+<li><p><strong>&#x2F;etc：</strong><br>etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p>
+</li>
+<li><p><strong>&#x2F;home</strong>：<br>用户的主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的，如上图中的 alice、bob 和 eve。</p>
+</li>
+<li><p><strong>&#x2F;usr</strong>：<br> usr 是 unix shared resources(共享资源) 的缩写，这是一个非常重要的目录，用户的很多应用<strong>程序</strong>和文件都放在这个目录下，类似于 windows 下的 program files 目录。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;bin：</strong><br>系统用户使用的应用程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;src：</strong><br>内核源代码默认的放置目录。</p>
+</li>
+<li><p><strong>&#x2F;var</strong>：<br>var 是 variable(变量) 的缩写，这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p>
+</li>
+</ul>
+<p>在 Linux 系统中，有几个目录是比较重要的，平时需要注意不要误删除或者随意更改内部文件。</p>
+<p><strong>&#x2F;etc</strong>： 上边也提到了，这个是系统中的配置文件，如果你更改了该目录下的某个文件可能会导致系统不能启动。</p>
+<p><strong>&#x2F;bin, &#x2F;sbin, &#x2F;usr&#x2F;bin, &#x2F;usr&#x2F;sbin</strong>: 这是系统预设的执行文件的放置目录，比如 <strong>ls</strong> 就是在 <strong>&#x2F;bin&#x2F;ls</strong> 目录下的。</p>
+<p>值得提出的是 <strong>&#x2F;bin</strong>、<strong>&#x2F;usr&#x2F;bin</strong> 是给系统用户使用的指令（除 root 外的通用用户），而&#x2F;sbin, &#x2F;usr&#x2F;sbin 则是给 root 使用的指令。</p>
+<p><strong>&#x2F;var</strong>： 这是一个非常重要的目录，系统上跑了很多程序，那么每个程序都会有相应的日志产生，而这些日志就被记录到这个目录下，具体在 &#x2F;var&#x2F;log 目录下，另外 mail 的预设放置也是在这里。</p>
+<h1 id="Linux-属性"><a href="#Linux-属性" class="headerlink" title="Linux 属性"></a>Linux 属性</h1><p>Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。</p>
+<p>为了保护系统的安全性，Linux 系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</p>
+<p>在 Linux 中我们通常使用以下两个命令来修改文件或目录的所属用户与权限：</p>
+<ul>
+<li>chown (change owner) ： 修改所属用户与组。</li>
+<li>chmod (change mode) ： 修改用户的权限。</li>
+</ul>
+<p>下图中通过 chown 来授权用户，通过 chmod 为用户设置可以开门的权限。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824165915960.png" alt="image-20230824165915960"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170121717.png" alt="image-20230824170121717"></p>
+<h1 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h1><p>在开始本教程前我们需要先知道什么是绝对路径与相对路径。</p>
+<ul>
+<li><p><strong>绝对路径：</strong><br>路径的写法，由根目录 <strong>&#x2F;</strong> 写起，例如： &#x2F;usr&#x2F;share&#x2F;doc 这个目录。</p>
+</li>
+<li></li>
+</ul>
+<p>  <strong>相对路径：</strong><br>  路径的写法，不是由 <strong>&#x2F;</strong> 写起，例如由 &#x2F;usr&#x2F;share&#x2F;doc 要到 &#x2F;usr&#x2F;share&#x2F;man 底下时，可以写成： <strong>cd ..&#x2F;man</strong> 这就是相对路径的写法。</p>
+<h2 id="处理目录的常用命令"><a href="#处理目录的常用命令" class="headerlink" title="处理目录的常用命令"></a>处理目录的常用命令</h2><p>接下来我们就来看几个常见的处理目录的命令吧：</p>
+<ul>
+<li>ls（英文全拼：list files）: 列出目录及文件名</li>
+<li>cd（英文全拼：change directory）：切换目录</li>
+<li>pwd（英文全拼：print work directory）：显示目前的目录</li>
+<li>mkdir（英文全拼：make directory）：创建一个新的目录</li>
+<li>rmdir（英文全拼：remove directory）：删除一个空的目录</li>
+<li>cp（英文全拼：copy file）: 复制文件或目录</li>
+<li>rm（英文全拼：remove）: 删除文件或目录</li>
+<li>mv（英文全拼：move file）: 移动文件与目录，或修改文件与目录的名称</li>
+<li>cd .. 返回上一层级</li>
+</ul>
+<h1 id="vim-命令"><a href="#vim-命令" class="headerlink" title="vim 命令"></a>vim 命令</h1><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-vim.html">https://www.runoob.com/linux/linux-vim.html</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170635062.png" alt="image-20230824170635062"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170829761.png" alt="image-20230824170829761"></p>
+<p>基本上 vi&#x2F;vim 共分为三种模式，<strong>命令模式（Command Mode）、输入模式（Insert Mode）和命令行模式（Command-Line Mode）</strong>。</p>
+<h2 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h2><p><strong>用户刚刚启动 vi&#x2F;vim，便进入了命令模式。</strong></p>
+<p>此状态下敲击键盘动作会被 Vim 识别为命令，而非输入字符，比如我们此时按下 <strong>i</strong>，并不会输入一个字符，<strong>i</strong> 被当作了一个命令。</p>
+<p>以下是普通模式常用的几个命令：</p>
+<ul>
+<li><strong>i</strong> – 切换到输入模式，在光标当前位置开始输入文本。</li>
+<li><strong>x</strong> – 删除当前光标所在处的字符。</li>
+<li><strong>:</strong> – 切换到底线命令模式，以在最底一行输入命令。</li>
+<li><strong>a</strong> – 进入插入模式，在光标下一个位置开始输入文本。</li>
+<li><strong>o</strong>：在当前行的下方插入一个新行，并进入插入模式。</li>
+<li><strong>O</strong> – 在当前行的上方插入一个新行，并进入插入模式。</li>
+<li><strong>dd</strong> – 删除当前行。</li>
+<li><strong>yy</strong> – 复制当前行。</li>
+<li><strong>p</strong> – 粘贴剪贴板内容到光标下方。</li>
+<li><strong>P</strong> – 粘贴剪贴板内容到光标上方。</li>
+<li><strong>u</strong> – 撤销上一次操作。</li>
+<li><strong>Ctrl + r</strong> – 重做上一次撤销的操作。</li>
+<li><strong>:w</strong> – 保存文件。</li>
+<li><strong>:q</strong> – 退出 Vim 编辑器。</li>
+<li><strong>:q!</strong> – 强制退出Vim 编辑器，不保存修改。</li>
+</ul>
+<p>若想要编辑文本，只需要启动 Vim，进入了命令模式，按下 <strong>i</strong> 切换到输入模式即可。</p>
+<p>命令模式只有一些最基本的命令，因此仍要依靠<strong>底线命令行模式</strong>输入更多命令。</p>
+<h2 id="输入模式"><a href="#输入模式" class="headerlink" title="输入模式"></a>输入模式</h2><p>在命令模式下按下 <strong>i</strong> 就进入了输入模式，使用 <strong>Esc</strong> 键可以返回到普通模式。</p>
+<p>在输入模式中，可以使用以下按键：</p>
+<ul>
+<li><strong>字符按键以及Shift组合</strong>，输入字符</li>
+<li><strong>ENTER</strong>，回车键，换行</li>
+<li><strong>BACK SPACE</strong>，退格键，删除光标前一个字符</li>
+<li><strong>DEL</strong>，删除键，删除光标后一个字符</li>
+<li><strong>方向键</strong>，在文本中移动光标</li>
+<li><strong>HOME</strong>&#x2F;<strong>END</strong>，移动光标到行首&#x2F;行尾</li>
+<li><strong>Page Up</strong>&#x2F;<strong>Page Down</strong>，上&#x2F;下翻页</li>
+<li><strong>Insert</strong>，切换光标为输入&#x2F;替换模式，光标将变成竖线&#x2F;下划线</li>
+<li><strong>ESC</strong>，退出输入模式，切换到命令模式</li>
+</ul>
+<h2 id="底线命令模式"><a href="#底线命令模式" class="headerlink" title="底线命令模式"></a>底线命令模式</h2><p>在命令模式下按下 <strong>:</strong>（英文冒号）就进入了底线命令模式。</p>
+<p>底线命令模式可以输入单个或多个字符的命令，可用的命令非常多。</p>
+<p>在底线命令模式中，基本的命令有（已经省略了冒号）：</p>
+<ul>
+<li><code>:w</code>：保存文件。</li>
+<li><code>:q</code>：退出 Vim 编辑器。</li>
+<li><code>:wq</code>：保存文件并退出 Vim 编辑器。</li>
+<li><code>:q!</code>：强制退出Vim编辑器，不保存修改。</li>
+</ul>
+<p>按 <strong>ESC</strong> 键可随时退出底线命令模式。</p>
+<h2 id="常用快捷健"><a href="#常用快捷健" class="headerlink" title="常用快捷健"></a>常用快捷健</h2><table>
+<thead>
+<tr>
+<th>[Ctrl] + [f]</th>
+<th>屏幕『向下』移动一页，相当于 [Page Down]按键 (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[Ctrl] + [b]</td>
+<td>屏幕『向上』移动一页，相当于 [Page Up] 按键 (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>0 或功能键[Home]</th>
+<th>这是数字『 0 』：移动到这一行的最前面字符处 (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$ 或功能键[End]</td>
+<td>移动到这一行的最后面字符处(常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>G</th>
+<th>移动到这个档案的最后一行(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>nG</th>
+<th>n 为数字。移动到这个档案的第 n 行。例如 20G 则会移动到这个档案的第 20 行(可配合 :set nu)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gg</td>
+<td>移动到这个档案的第一行，相当于 1G 啊！ (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>&#x2F;word</th>
+<th>向光标之下寻找一个名称为 word 的字符串。例如要在档案内搜寻 vbird 这个字符串，就输入 &#x2F;vbird 即可！ (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yy</td>
+<td>复制游标所在的那一行(常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>x, X</th>
+<th>在一行字当中，x 为向后删除一个字符 (相当于 [del] 按键)， X 为向前删除一个字符(相当于 [backspace] 亦即是退格键) (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dd</td>
+<td>剪切游标所在的那一整行(常用)，用 p&#x2F;P 可以粘贴。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>nyy</th>
+<th>n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 20 行(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p, P</td>
+<td>p 为将已复制的数据在光标下一行贴上，P 则为贴在游标上一行！ 举例来说，我目前光标在第 20 行，且已经复制了 10 行数据。则按下 p 后， 那 10 行数据会贴在原本的 20 行之后，亦即由 21 行开始贴。但如果是按下 P 呢？ 那么原本的第 20 行会被推到变成 30 行。 (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>u</th>
+<th>复原前一个动作。(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[Ctrl]+r</td>
+<td>重做上一个动作。(常用)</td>
+</tr>
+</tbody></table>
+<h1 id="yun命令"><a href="#yun命令" class="headerlink" title="yun命令"></a>yun命令</h1><ul>
+<li>\1. 列出所有可更新的软件清单命令：<strong>yum check-update</strong></li>
+<li>\2. 更新所有软件命令：<strong>yum update</strong></li>
+<li>\3. 仅安装指定的软件命令：<strong>yum install <package_name></strong></li>
+<li>\4. 仅更新指定的软件命令：<strong>yum update <package_name></strong></li>
+<li>\5. 列出所有可安裝的软件清单命令：<strong>yum list</strong></li>
+<li>\6. 删除软件包命令：<strong>yum remove <package_name></strong></li>
+<li>\7. 查找软件包命令：<strong>yum search <keyword></strong></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/08/17/20250207194639-%20%E7%94%A8%E4%B9%A6%E4%B8%AD%E4%BB%8B%E7%BB%8D%E7%9A%84%E9%98%85%E8%AF%BB%E6%96%B9%E6%B3%95%E9%98%85%E8%AF%BB%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E9%98%85%E8%AF%BB%E8%80%85%E3%80%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/08/17/20250207194639-%20%E7%94%A8%E4%B9%A6%E4%B8%AD%E4%BB%8B%E7%BB%8D%E7%9A%84%E9%98%85%E8%AF%BB%E6%96%B9%E6%B3%95%E9%98%85%E8%AF%BB%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E9%98%85%E8%AF%BB%E8%80%85%E3%80%8B/" class="post-title-link" itemprop="url">系统阅读法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-17 00:00:00" itemprop="dateCreated datePublished" datetime="2023-08-17T00:00:00+08:00">2023-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -199,10 +481,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读《打开心智》有感</p>
+          <p>使用系统阅读法读《聪明的阅读者》<br>首先，通过查阅《聪明的阅读者》199页的表格，我们可以确定这是一本学术专著。阅读此书需采用结构阅读、抽样阅读、文本细读。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/10/21/%E3%80%8A%E6%89%93%E5%BC%80%E5%BF%83%E6%99%BA%E3%80%8B/">
+              <a class="btn" href="/2023/08/17/20250207194639-%20%E7%94%A8%E4%B9%A6%E4%B8%AD%E4%BB%8B%E7%BB%8D%E7%9A%84%E9%98%85%E8%AF%BB%E6%96%B9%E6%B3%95%E9%98%85%E8%AF%BB%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E9%98%85%E8%AF%BB%E8%80%85%E3%80%8B/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -226,7 +508,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2022/08/23/%E3%80%8A%E6%B4%9E%E8%A7%81%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/08/05/20241214122736-%20%E6%88%90%E9%95%BF%E7%9A%84%E5%BF%83%E6%99%BA%20-%20%E4%B9%A6%E8%AF%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -240,7 +522,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/08/23/%E3%80%8A%E6%B4%9E%E8%A7%81%E3%80%8B/" class="post-title-link" itemprop="url">正念与自我</a>
+            <a href="/2023/08/05/20241214122736-%20%E6%88%90%E9%95%BF%E7%9A%84%E5%BF%83%E6%99%BA%20-%20%E4%B9%A6%E8%AF%84/" class="post-title-link" itemprop="url">读《成长的心智》</a>
         </h2>
 
         <div class="post-meta">
@@ -250,14 +532,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-08-23 00:00:00" itemprop="dateCreated datePublished" datetime="2022-08-23T00:00:00+08:00">2022-08-23</time>
+              <time title="创建时间：2023-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-08-05T00:00:00+08:00">2023-08-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:24:25" itemprop="dateModified" datetime="2025-05-09T18:24:25+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-09 18:22:24" itemprop="dateModified" datetime="2025-05-09T18:22:24+08:00">2025-05-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -280,10 +562,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读《洞见》 —— 正念是什么？</p>
+          <p>L先生的好书</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/08/23/%E3%80%8A%E6%B4%9E%E8%A7%81%E3%80%8B/">
+              <a class="btn" href="/2023/08/05/20241214122736-%20%E6%88%90%E9%95%BF%E7%9A%84%E5%BF%83%E6%99%BA%20-%20%E4%B9%A6%E8%AF%84/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -307,7 +589,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2022/04/22/%E8%B5%96%E4%BB%A5%E7%94%9F%E5%AD%98%E7%9A%84%E6%95%85%E4%BA%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/08/05/%E7%BB%93%E6%9E%84%E9%98%85%E8%AF%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -321,7 +603,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/04/22/%E8%B5%96%E4%BB%A5%E7%94%9F%E5%AD%98%E7%9A%84%E6%95%85%E4%BA%8B/" class="post-title-link" itemprop="url">故事为何那么重要</a>
+            <a href="/2023/08/05/%E7%BB%93%E6%9E%84%E9%98%85%E8%AF%BB/" class="post-title-link" itemprop="url">结构阅读是什么？</a>
         </h2>
 
         <div class="post-meta">
@@ -331,14 +613,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-04-22 00:00:00" itemprop="dateCreated datePublished" datetime="2022-04-22T00:00:00+08:00">2022-04-22</time>
+              <time title="创建时间：2023-08-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-08-05T00:00:00+08:00">2023-08-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:23:37" itemprop="dateModified" datetime="2025-05-09T18:23:37+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -361,10 +643,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读《我们赖以生存的故事有感》—— 你想过，故事由哪些重要的部分吗</p>
+          <p>结构阅读是什么？ </p>
+<p>结构阅读，犹如一个精妙的杠杆，以人类有限的认知方式作为支点，撬动无限的文本的阅读方式。 </p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/04/22/%E8%B5%96%E4%BB%A5%E7%94%9F%E5%AD%98%E7%9A%84%E6%95%85%E4%BA%8B/">
+              <a class="btn" href="/2023/08/05/%E7%BB%93%E6%9E%84%E9%98%85%E8%AF%BB/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -388,7 +671,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2022/01/25/%E8%A5%BF%E8%92%99%E7%9A%84%E8%AE%A4%E7%9F%A5/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/07/24/230724-%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -402,7 +685,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/01/25/%E8%A5%BF%E8%92%99%E7%9A%84%E8%AE%A4%E7%9F%A5/" class="post-title-link" itemprop="url">学习西蒙好榜样</a>
+            <a href="/2023/07/24/230724-%E5%8A%9F%E7%8E%87%E4%B8%89%E8%A7%92/" class="post-title-link" itemprop="url">功率三角</a>
         </h2>
 
         <div class="post-meta">
@@ -412,14 +695,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-01-25 00:00:00" itemprop="dateCreated datePublished" datetime="2022-01-25T00:00:00+08:00">2022-01-25</time>
+              <time title="创建时间：2023-07-24 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-24T00:00:00+08:00">2023-07-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 11:51:21" itemprop="dateModified" datetime="2025-05-09T11:51:21+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-12 16:20:00" itemprop="dateModified" datetime="2025-05-12T16:20:00+08:00">2025-05-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -427,7 +710,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
             </span>
 
@@ -442,10 +725,119 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读西蒙《认知》</p>
+          <p>在对逆变器Modbus编码时，涉及到几个关于功率的参数。下面简单梳理一下。</p>
+<h3 id="功率三角"><a href="#功率三角" class="headerlink" title="功率三角"></a>功率三角</h3><ol>
+<li><strong>有功功率</strong>（P, 单位：瓦特W）：这是实际做功或做有用工作的功率，例如转动一个电机，或者亮起一盏灯。</li>
+<li><strong>无功功率</strong>（Q, 单位：无功瓦特，即乏尔VAR）：这是由于交流电中电流和电压之间的相位差产生的功率。它对于建立电磁场是必要的，例如在电动机和变压器中。但是它不直接进行有用的工作。</li>
+<li><strong>视在功率</strong>（S, 单位：伏安VA）：这是交流电路中的”总”功率。它是由电压和电流的简单乘积得到的，不考虑它们之间的相位差。视在功率是有功功率和无功功率的向量和。</li>
+</ol>
+<p>视在功率、有功功率和无功功率之间的关系经常用一个被称为”功率三角”的图示来表示，其中：</p>
+<ul>
+<li><p>视在功率是三角形的斜边</p>
+</li>
+<li><p>有功功率是三角形的底边</p>
+</li>
+<li><p>无功功率是三角形的高</p>
+</li>
+<li><p>有功功率（P，单位：瓦特W）和无功功率（Q，单位：无功瓦特，即乏尔VAR）和视在功率之间的关系是：</p>
+<p>S^2 &#x3D; P^2 + Q^2</p>
+</li>
+</ul>
+<p>功率因数（PF）是有功功率与视在功率之比，也是功率三角的底边与斜边之比，即PF &#x3D; P&#x2F;S。它表示电路的效率，或者说电能有多少被转化为有用功率。当没有相位差（电压和电流完全同步）时，功率因数为1，这时所有的视在功率都被转化为有功功率。</p>
+<h3 id="相位差-无功功率的产生"><a href="#相位差-无功功率的产生" class="headerlink" title="相位差  - 无功功率的产生"></a>相位差  - 无功功率的产生</h3><p>相位差是一个描述在交流电路中电流和电压之间关系的概念。在交流电（AC）系统中，电流（I）和电压（V）通常会以一种波动的方式变化，而且这种变化是周期性的。</p>
+<p>这两个信号的波形可能并不总是完全同步的，也就是说，它们在时间上可能会有一些偏移。这个偏移就被称为”相位差”。相位差通常用度数（角度）或者弧度来衡量。如果电流和电压完全同步，我们说它们的相位差是0度；如果它们完全不同步（例如，当电压达到最大值时，电流恰好为0），我们说它们的相位差是90度。</p>
+<p>为什么这个相位差重要呢？因为在交流电系统中，实际做功（即有功功率）的部分取决于电流和电压的同步程度。如果电流和电压完全同步，那么你能得到最大的有功功率；如果它们的相位差较大，那么有功功率会减小。因此，相位差可以影响电力系统的效率。</p>
+<p>功率因数，也被称为PF（Power Factor），是电力系统中一个重要的参数，它描述了电压和电流波形之间的相位差，以及电路中的能源效率。</p>
+<p>功率因数是有功功率（P，用瓦特W表示）和视在功率（S，用伏安VA表示）之间的比例。换句话说，它是电源系统中实际用于做功的电力（有功功率）与电源系统总电力（视在功率）之间的比值。</p>
+<p>功率因数的值在0和1之间。当电压和电流完全同步（即它们的相位差为0），功率因数是1，此时所有的电能都被有效地转化为有用的功。相反，如果电流和电压之间存在相位差，即它们并不完全同步，那么功率因数就会小于1，这意味着只有部分电能被转化为有用的功，剩余的电能表现为无功功率。</p>
+<p>因此，功率因数可以被看作是一个度量，它反映了电源系统的效率，或者说，电源系统中有多少电能被有效地利用。同时，它也是一个反映电流和电压之间相位差的指标。</p>
+<p>那么无功功率是不是没有用呢，不是。无功功率具有以下重要用途。</p>
+<ol>
+<li>在电磁设备（如电动机、变压器等）中，无功功率用于建立和维持电磁场，这对于这些设备的运行是必需的。</li>
+<li>无功功率可以帮助改善电力系统的稳定性和电压质量。</li>
+<li>对无功功率的管理（如无功补偿）可以提高电力系统的效率，因为如果没有适当的无功功率管理，电力系统可能需要更高的电流来提供同样的有功功率，这会导致更大的能源损失。</li>
+</ol>
+<p>因此，尽管无功功率不直接为终端用户提供能量，但它在电力系统的运行中却起着重要的作用。</p>
+<h3 id="额定在线容量"><a href="#额定在线容量" class="headerlink" title="额定在线容量"></a>额定在线容量</h3><p>“额定在线容量”通常是指不间断电源（UPS）或某些电力系统的术语，用来表示系统在正常运行中可以持续提供的最大电力。这个参数是为了在设计和规划电力系统时，确保系统能满足所有负载的电力需求。它通常以瓦特（W）、千瓦（kW）或者伏安（VA）来衡量。</p>
+<p>对于UPS系统来说，额定在线容量表示UPS在正常运行时能够供应的最大功率，它也是决定UPS能够支持多大负载的关键参数。如果负载功率超过了UPS的额定在线容量，那么UPS可能会过载，无法保护所有的设备。 </p>
+<p>对于逆变器(PCS)来说，额定在线容量就是指PCS的输出交流电功率。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/07/05/Goland%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/07/05/Goland%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2/" class="post-title-link" itemprop="url">goland中如何批量替换</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-07-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-05T00:00:00+08:00">2023-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="如何批量替换"><a href="#如何批量替换" class="headerlink" title="如何批量替换"></a>如何批量替换</h2><p>如果你想在 GoLand 中替换某一段特定的字符串（例如“62P5”），你可以使用 GoLand 的 <code>Find and Replace</code> 功能来实现。这是一种全局性的操作，将会在你的整个项目或指定的文件&#x2F;文件夹中进行。以下是详细步骤：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/01/25/%E8%A5%BF%E8%92%99%E7%9A%84%E8%AE%A4%E7%9F%A5/">
+              <a class="btn" href="/2023/07/05/Goland%E6%89%B9%E9%87%8F%E6%9B%BF%E6%8D%A2/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -469,7 +861,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/12/23/%E3%80%8A%E6%94%B9%E5%8F%98%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/07/05/git%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -483,7 +875,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/23/%E3%80%8A%E6%94%B9%E5%8F%98%E3%80%8B/" class="post-title-link" itemprop="url">读神作《改变》</a>
+            <a href="/2023/07/05/git%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">git冲突解决</a>
         </h2>
 
         <div class="post-meta">
@@ -493,14 +885,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-23T00:00:00+08:00">2021-12-23</time>
+              <time title="创建时间：2023-07-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-05T00:00:00+08:00">2023-07-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 11:51:21" itemprop="dateModified" datetime="2025-05-09T11:51:21+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -508,7 +900,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
             </span>
 
@@ -523,10 +915,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>第二序列改变</p>
+          <p>远程分支合并到本地分支。</p>
+<p>提交时merge request出现冲突，需要先将远程分支合并到本地分支，解决冲突。</p>
+<p>如果你已经将远程仓库添加为远程，你可以使用以下命令来完成这个操作：</p>
+<p>首先，你需要获取远程仓库的最新信息：</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/23/%E3%80%8A%E6%94%B9%E5%8F%98%E3%80%8B/">
+              <a class="btn" href="/2023/07/05/git%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -550,7 +945,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/12/19/%E3%80%8A%E7%88%B1%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AD%A6%E4%B9%A0%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/07/05/%E8%AF%BBwoop/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -564,7 +959,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/19/%E3%80%8A%E7%88%B1%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AD%A6%E4%B9%A0%E3%80%8B/" class="post-title-link" itemprop="url">爱，需要学习</a>
+            <a href="/2023/07/05/%E8%AF%BBwoop/" class="post-title-link" itemprop="url">幻想是如何让你懈怠的</a>
         </h2>
 
         <div class="post-meta">
@@ -574,14 +969,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-12-19 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-19T00:00:00+08:00">2021-12-19</time>
+              <time title="创建时间：2023-07-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-07-05T00:00:00+08:00">2023-07-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:19:49" itemprop="dateModified" datetime="2025-05-09T18:19:49+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-09 18:23:09" itemprop="dateModified" datetime="2025-05-09T18:23:09+08:00">2025-05-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -604,10 +999,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读陈海贤的《爱，需要学习》 ——  我承诺不跟你争输赢，因为我知道，要么我们都输，要么我们都赢</p>
+          <p>读加布里埃尔·厄廷根《WOOP思维心理学》 —— 人人都应该掌握的目标制定规则</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/19/%E3%80%8A%E7%88%B1%EF%BC%8C%E9%9C%80%E8%A6%81%E5%AD%A6%E4%B9%A0%E3%80%8B/">
+              <a class="btn" href="/2023/07/05/%E8%AF%BBwoop/">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -631,7 +1026,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/12/11/%E3%80%8A%E5%86%85%E5%9C%A8%E5%8A%A8%E6%9C%BA%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/04/05/20240826204432-go%E7%9A%84%E5%8F%98%E9%95%BF%E5%8F%82%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -645,7 +1040,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/11/%E3%80%8A%E5%86%85%E5%9C%A8%E5%8A%A8%E6%9C%BA%E3%80%8B/" class="post-title-link" itemprop="url">名利会伤人</a>
+            <a href="/2023/04/05/20240826204432-go%E7%9A%84%E5%8F%98%E9%95%BF%E5%8F%82%E6%95%B0/" class="post-title-link" itemprop="url">go中的变长参数</a>
         </h2>
 
         <div class="post-meta">
@@ -655,14 +1050,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-11T00:00:00+08:00">2021-12-11</time>
+              <time title="创建时间：2023-04-05 00:00:00" itemprop="dateCreated datePublished" datetime="2023-04-05T00:00:00+08:00">2023-04-05</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:20:22" itemprop="dateModified" datetime="2025-05-09T18:20:22+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -670,7 +1065,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
             </span>
 
@@ -685,10 +1080,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读《内在动机》有感 —— 还是要兴趣出发</p>
+          <p>一、变长参数的定义</p>
+<p>函数变长参数，是一种函数的定义方法。允许在形参定义时，只定义一个参数。但调用时，传入多个实参。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/11/%E3%80%8A%E5%86%85%E5%9C%A8%E5%8A%A8%E6%9C%BA%E3%80%8B/">
+              <a class="btn" href="/2023/04/05/20240826204432-go%E7%9A%84%E5%8F%98%E9%95%BF%E5%8F%82%E6%95%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -712,7 +1108,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/12/11/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E6%AD%A3%E9%9D%A2%E4%B8%8E%E4%BE%A7%E9%9D%A2%E3%80%8B/">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/02/22/git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -726,7 +1122,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/12/11/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E6%AD%A3%E9%9D%A2%E4%B8%8E%E4%BE%A7%E9%9D%A2%E3%80%8B/" class="post-title-link" itemprop="url">挽大厦于将倾之曾国藩的第一次重大挫折</a>
+            <a href="/2023/02/22/git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">git撤销操作</a>
         </h2>
 
         <div class="post-meta">
@@ -736,14 +1132,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-12-11 00:00:00" itemprop="dateCreated datePublished" datetime="2021-12-11T00:00:00+08:00">2021-12-11</time>
+              <time title="创建时间：2023-02-22 00:00:00" itemprop="dateCreated datePublished" datetime="2023-02-22T00:00:00+08:00">2023-02-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:19:25" itemprop="dateModified" datetime="2025-05-09T18:19:25+08:00">2025-05-09</time>
+                <time title="修改时间：2025-05-08 23:48:39" itemprop="dateModified" datetime="2025-05-08T23:48:39+08:00">2025-05-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -751,7 +1147,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
                 </span>
             </span>
 
@@ -766,172 +1162,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>读张宏杰《曾国藩的正面与侧面》</p>
+          <ol>
+<li><p>撤销提交的代码。</p>
+<p><strong>stash的应用</strong></p>
+<p>在Git中，有多种撤回提交或更改的方式，取决于你想要完成的具体操作：</p>
+</li>
+</ol>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2021/12/11/%E3%80%8A%E6%9B%BE%E5%9B%BD%E8%97%A9%E7%9A%84%E6%AD%A3%E9%9D%A2%E4%B8%8E%E4%BE%A7%E9%9D%A2%E3%80%8B/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/05/05/%E3%80%8A%E6%83%85%E7%BB%AA%E3%80%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/05/%E3%80%8A%E6%83%85%E7%BB%AA%E3%80%8B/" class="post-title-link" itemprop="url">情绪到底是什么</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-05 00:00:00" itemprop="dateCreated datePublished" datetime="2021-05-05T00:00:00+08:00">2021-05-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:20:33" itemprop="dateModified" datetime="2025-05-09T18:20:33+08:00">2025-05-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>读《情绪》有感 —— 情绪为何是一种概念</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/05/05/%E3%80%8A%E6%83%85%E7%BB%AA%E3%80%8B/">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2021/01/21/%E3%80%8A%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF%E3%80%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="陈原辉的网志">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/21/%E3%80%8A%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF%E3%80%8B/" class="post-title-link" itemprop="url">以终为始，积极主动</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-01-21 00:00:00" itemprop="dateCreated datePublished" datetime="2021-01-21T00:00:00+08:00">2021-01-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2025-05-09 18:21:19" itemprop="dateModified" datetime="2025-05-09T18:21:19+08:00">2025-05-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>读《高效能认识的七个习惯》—— 应该培养哪些习惯</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/21/%E3%80%8A%E9%AB%98%E6%95%88%E8%83%BD%E4%BA%BA%E5%A3%AB%E7%9A%84%E4%B8%83%E4%B8%AA%E4%B9%A0%E6%83%AF%E3%80%8B/">
+              <a class="btn" href="/2023/02/22/git%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -954,7 +1193,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1020,7 +1259,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

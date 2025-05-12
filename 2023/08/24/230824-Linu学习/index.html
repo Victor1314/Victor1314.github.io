@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"victor1314.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="https:&#x2F;&#x2F;www.runoob.com&#x2F;linux&#x2F;linux-tutorial.html 系统目录结构   &#x2F;bin：bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。  &#x2F;etc：etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。  &#x2F;home：用户的主目录，在 Lin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linu学习">
+<meta property="og:url" content="https://victor1314.github.io/2023/08/24/230824-Linu%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="陈原辉的网志">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.runoob.com&#x2F;linux&#x2F;linux-tutorial.html 系统目录结构   &#x2F;bin：bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。  &#x2F;etc：etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。  &#x2F;home：用户的主目录，在 Lin">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164336947.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164400894.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824165915960.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170121717.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170635062.png">
+<meta property="og:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170829761.png">
+<meta property="article:published_time" content="2023-08-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-12T08:19:41.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164336947.png">
+
+<link rel="canonical" href="https://victor1314.github.io/2023/08/24/230824-Linu%E5%AD%A6%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Linu学习 | 陈原辉的网志</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">陈原辉的网志</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">记录读过的书，遇到的人，走过的路，掉进的坑</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://victor1314.github.io/2023/08/24/230824-Linu%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="陈原辉的网志">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linu学习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-08-24 00:00:00" itemprop="dateCreated datePublished" datetime="2023-08-24T00:00:00+08:00">2023-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2025-05-12 16:19:41" itemprop="dateModified" datetime="2025-05-12T16:19:41+08:00">2025-05-12</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-tutorial.html">https://www.runoob.com/linux/linux-tutorial.html</a></p>
+<h1 id="系统目录结构"><a href="#系统目录结构" class="headerlink" title="系统目录结构"></a>系统目录结构</h1><p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164336947.png" alt="image-20230824164336947"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824164400894.png" alt="image-20230824164400894"></p>
+<ul>
+<li><p><strong>&#x2F;bin</strong>：<br>bin 是 Binaries (二进制文件) 的缩写, 这个目录存放着最经常使用的命令。</p>
+</li>
+<li><p><strong>&#x2F;etc：</strong><br>etc 是 Etcetera(等等) 的缩写,这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p>
+</li>
+<li><p><strong>&#x2F;home</strong>：<br>用户的主目录，在 Linux 中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的，如上图中的 alice、bob 和 eve。</p>
+</li>
+<li><p><strong>&#x2F;usr</strong>：<br> usr 是 unix shared resources(共享资源) 的缩写，这是一个非常重要的目录，用户的很多应用<strong>程序</strong>和文件都放在这个目录下，类似于 windows 下的 program files 目录。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;bin：</strong><br>系统用户使用的应用程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p>
+</li>
+<li><p><strong>&#x2F;usr&#x2F;src：</strong><br>内核源代码默认的放置目录。</p>
+</li>
+<li><p><strong>&#x2F;var</strong>：<br>var 是 variable(变量) 的缩写，这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p>
+</li>
+</ul>
+<p>在 Linux 系统中，有几个目录是比较重要的，平时需要注意不要误删除或者随意更改内部文件。</p>
+<p><strong>&#x2F;etc</strong>： 上边也提到了，这个是系统中的配置文件，如果你更改了该目录下的某个文件可能会导致系统不能启动。</p>
+<p><strong>&#x2F;bin, &#x2F;sbin, &#x2F;usr&#x2F;bin, &#x2F;usr&#x2F;sbin</strong>: 这是系统预设的执行文件的放置目录，比如 <strong>ls</strong> 就是在 <strong>&#x2F;bin&#x2F;ls</strong> 目录下的。</p>
+<p>值得提出的是 <strong>&#x2F;bin</strong>、<strong>&#x2F;usr&#x2F;bin</strong> 是给系统用户使用的指令（除 root 外的通用用户），而&#x2F;sbin, &#x2F;usr&#x2F;sbin 则是给 root 使用的指令。</p>
+<p><strong>&#x2F;var</strong>： 这是一个非常重要的目录，系统上跑了很多程序，那么每个程序都会有相应的日志产生，而这些日志就被记录到这个目录下，具体在 &#x2F;var&#x2F;log 目录下，另外 mail 的预设放置也是在这里。</p>
+<h1 id="Linux-属性"><a href="#Linux-属性" class="headerlink" title="Linux 属性"></a>Linux 属性</h1><p>Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。</p>
+<p>为了保护系统的安全性，Linux 系统对不同的用户访问同一文件（包括目录文件）的权限做了不同的规定。</p>
+<p>在 Linux 中我们通常使用以下两个命令来修改文件或目录的所属用户与权限：</p>
+<ul>
+<li>chown (change owner) ： 修改所属用户与组。</li>
+<li>chmod (change mode) ： 修改用户的权限。</li>
+</ul>
+<p>下图中通过 chown 来授权用户，通过 chmod 为用户设置可以开门的权限。</p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824165915960.png" alt="image-20230824165915960"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170121717.png" alt="image-20230824170121717"></p>
+<h1 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h1><p>在开始本教程前我们需要先知道什么是绝对路径与相对路径。</p>
+<ul>
+<li><p><strong>绝对路径：</strong><br>路径的写法，由根目录 <strong>&#x2F;</strong> 写起，例如： &#x2F;usr&#x2F;share&#x2F;doc 这个目录。</p>
+</li>
+<li></li>
+</ul>
+<p>  <strong>相对路径：</strong><br>  路径的写法，不是由 <strong>&#x2F;</strong> 写起，例如由 &#x2F;usr&#x2F;share&#x2F;doc 要到 &#x2F;usr&#x2F;share&#x2F;man 底下时，可以写成： <strong>cd ..&#x2F;man</strong> 这就是相对路径的写法。</p>
+<h2 id="处理目录的常用命令"><a href="#处理目录的常用命令" class="headerlink" title="处理目录的常用命令"></a>处理目录的常用命令</h2><p>接下来我们就来看几个常见的处理目录的命令吧：</p>
+<ul>
+<li>ls（英文全拼：list files）: 列出目录及文件名</li>
+<li>cd（英文全拼：change directory）：切换目录</li>
+<li>pwd（英文全拼：print work directory）：显示目前的目录</li>
+<li>mkdir（英文全拼：make directory）：创建一个新的目录</li>
+<li>rmdir（英文全拼：remove directory）：删除一个空的目录</li>
+<li>cp（英文全拼：copy file）: 复制文件或目录</li>
+<li>rm（英文全拼：remove）: 删除文件或目录</li>
+<li>mv（英文全拼：move file）: 移动文件与目录，或修改文件与目录的名称</li>
+<li>cd .. 返回上一层级</li>
+</ul>
+<h1 id="vim-命令"><a href="#vim-命令" class="headerlink" title="vim 命令"></a>vim 命令</h1><p><a target="_blank" rel="noopener" href="https://www.runoob.com/linux/linux-vim.html">https://www.runoob.com/linux/linux-vim.html</a></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170635062.png" alt="image-20230824170635062"></p>
+<p><img src="https://for-note.oss-cn-shanghai.aliyuncs.com/img/image-20230824170829761.png" alt="image-20230824170829761"></p>
+<p>基本上 vi&#x2F;vim 共分为三种模式，<strong>命令模式（Command Mode）、输入模式（Insert Mode）和命令行模式（Command-Line Mode）</strong>。</p>
+<h2 id="命令模式"><a href="#命令模式" class="headerlink" title="命令模式"></a>命令模式</h2><p><strong>用户刚刚启动 vi&#x2F;vim，便进入了命令模式。</strong></p>
+<p>此状态下敲击键盘动作会被 Vim 识别为命令，而非输入字符，比如我们此时按下 <strong>i</strong>，并不会输入一个字符，<strong>i</strong> 被当作了一个命令。</p>
+<p>以下是普通模式常用的几个命令：</p>
+<ul>
+<li><strong>i</strong> – 切换到输入模式，在光标当前位置开始输入文本。</li>
+<li><strong>x</strong> – 删除当前光标所在处的字符。</li>
+<li><strong>:</strong> – 切换到底线命令模式，以在最底一行输入命令。</li>
+<li><strong>a</strong> – 进入插入模式，在光标下一个位置开始输入文本。</li>
+<li><strong>o</strong>：在当前行的下方插入一个新行，并进入插入模式。</li>
+<li><strong>O</strong> – 在当前行的上方插入一个新行，并进入插入模式。</li>
+<li><strong>dd</strong> – 删除当前行。</li>
+<li><strong>yy</strong> – 复制当前行。</li>
+<li><strong>p</strong> – 粘贴剪贴板内容到光标下方。</li>
+<li><strong>P</strong> – 粘贴剪贴板内容到光标上方。</li>
+<li><strong>u</strong> – 撤销上一次操作。</li>
+<li><strong>Ctrl + r</strong> – 重做上一次撤销的操作。</li>
+<li><strong>:w</strong> – 保存文件。</li>
+<li><strong>:q</strong> – 退出 Vim 编辑器。</li>
+<li><strong>:q!</strong> – 强制退出Vim 编辑器，不保存修改。</li>
+</ul>
+<p>若想要编辑文本，只需要启动 Vim，进入了命令模式，按下 <strong>i</strong> 切换到输入模式即可。</p>
+<p>命令模式只有一些最基本的命令，因此仍要依靠<strong>底线命令行模式</strong>输入更多命令。</p>
+<h2 id="输入模式"><a href="#输入模式" class="headerlink" title="输入模式"></a>输入模式</h2><p>在命令模式下按下 <strong>i</strong> 就进入了输入模式，使用 <strong>Esc</strong> 键可以返回到普通模式。</p>
+<p>在输入模式中，可以使用以下按键：</p>
+<ul>
+<li><strong>字符按键以及Shift组合</strong>，输入字符</li>
+<li><strong>ENTER</strong>，回车键，换行</li>
+<li><strong>BACK SPACE</strong>，退格键，删除光标前一个字符</li>
+<li><strong>DEL</strong>，删除键，删除光标后一个字符</li>
+<li><strong>方向键</strong>，在文本中移动光标</li>
+<li><strong>HOME</strong>&#x2F;<strong>END</strong>，移动光标到行首&#x2F;行尾</li>
+<li><strong>Page Up</strong>&#x2F;<strong>Page Down</strong>，上&#x2F;下翻页</li>
+<li><strong>Insert</strong>，切换光标为输入&#x2F;替换模式，光标将变成竖线&#x2F;下划线</li>
+<li><strong>ESC</strong>，退出输入模式，切换到命令模式</li>
+</ul>
+<h2 id="底线命令模式"><a href="#底线命令模式" class="headerlink" title="底线命令模式"></a>底线命令模式</h2><p>在命令模式下按下 <strong>:</strong>（英文冒号）就进入了底线命令模式。</p>
+<p>底线命令模式可以输入单个或多个字符的命令，可用的命令非常多。</p>
+<p>在底线命令模式中，基本的命令有（已经省略了冒号）：</p>
+<ul>
+<li><code>:w</code>：保存文件。</li>
+<li><code>:q</code>：退出 Vim 编辑器。</li>
+<li><code>:wq</code>：保存文件并退出 Vim 编辑器。</li>
+<li><code>:q!</code>：强制退出Vim编辑器，不保存修改。</li>
+</ul>
+<p>按 <strong>ESC</strong> 键可随时退出底线命令模式。</p>
+<h2 id="常用快捷健"><a href="#常用快捷健" class="headerlink" title="常用快捷健"></a>常用快捷健</h2><table>
+<thead>
+<tr>
+<th>[Ctrl] + [f]</th>
+<th>屏幕『向下』移动一页，相当于 [Page Down]按键 (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[Ctrl] + [b]</td>
+<td>屏幕『向上』移动一页，相当于 [Page Up] 按键 (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>0 或功能键[Home]</th>
+<th>这是数字『 0 』：移动到这一行的最前面字符处 (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>$ 或功能键[End]</td>
+<td>移动到这一行的最后面字符处(常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>G</th>
+<th>移动到这个档案的最后一行(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>nG</th>
+<th>n 为数字。移动到这个档案的第 n 行。例如 20G 则会移动到这个档案的第 20 行(可配合 :set nu)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>gg</td>
+<td>移动到这个档案的第一行，相当于 1G 啊！ (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>&#x2F;word</th>
+<th>向光标之下寻找一个名称为 word 的字符串。例如要在档案内搜寻 vbird 这个字符串，就输入 &#x2F;vbird 即可！ (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>yy</td>
+<td>复制游标所在的那一行(常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>x, X</th>
+<th>在一行字当中，x 为向后删除一个字符 (相当于 [del] 按键)， X 为向前删除一个字符(相当于 [backspace] 亦即是退格键) (常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dd</td>
+<td>剪切游标所在的那一整行(常用)，用 p&#x2F;P 可以粘贴。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>nyy</th>
+<th>n 为数字。复制光标所在的向下 n 行，例如 20yy 则是复制 20 行(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>p, P</td>
+<td>p 为将已复制的数据在光标下一行贴上，P 则为贴在游标上一行！ 举例来说，我目前光标在第 20 行，且已经复制了 10 行数据。则按下 p 后， 那 10 行数据会贴在原本的 20 行之后，亦即由 21 行开始贴。但如果是按下 P 呢？ 那么原本的第 20 行会被推到变成 30 行。 (常用)</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>u</th>
+<th>复原前一个动作。(常用)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>[Ctrl]+r</td>
+<td>重做上一个动作。(常用)</td>
+</tr>
+</tbody></table>
+<h1 id="yun命令"><a href="#yun命令" class="headerlink" title="yun命令"></a>yun命令</h1><ul>
+<li>\1. 列出所有可更新的软件清单命令：<strong>yum check-update</strong></li>
+<li>\2. 更新所有软件命令：<strong>yum update</strong></li>
+<li>\3. 仅安装指定的软件命令：<strong>yum install <package_name></strong></li>
+<li>\4. 仅更新指定的软件命令：<strong>yum update <package_name></strong></li>
+<li>\5. 列出所有可安裝的软件清单命令：<strong>yum list</strong></li>
+<li>\6. 删除软件包命令：<strong>yum remove <package_name></strong></li>
+<li>\7. 查找软件包命令：<strong>yum search <keyword></strong></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/08/17/20250207194639-%20%E7%94%A8%E4%B9%A6%E4%B8%AD%E4%BB%8B%E7%BB%8D%E7%9A%84%E9%98%85%E8%AF%BB%E6%96%B9%E6%B3%95%E9%98%85%E8%AF%BB%E3%80%8A%E8%81%AA%E6%98%8E%E7%9A%84%E9%98%85%E8%AF%BB%E8%80%85%E3%80%8B/" rel="prev" title="系统阅读法">
+      <i class="fa fa-chevron-left"></i> 系统阅读法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/29/230829-%E6%89%93%E9%BC%BE%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/" rel="next" title="打鼾文献阅读">
+      打鼾文献阅读 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">系统目录结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E5%B1%9E%E6%80%A7"><span class="nav-number">2.</span> <span class="nav-text">Linux 属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">文件和目录管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E7%9B%AE%E5%BD%95%E7%9A%84%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.</span> <span class="nav-text">处理目录的常用命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vim-%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">vim 命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">命令模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.2.</span> <span class="nav-text">输入模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%95%E7%BA%BF%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.3.</span> <span class="nav-text">底线命令模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E5%81%A5"><span class="nav-number">4.4.</span> <span class="nav-text">常用快捷健</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yun%E5%91%BD%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">yun命令</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name"></p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder"></span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
